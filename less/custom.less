@@ -1,0 +1,74 @@
+@font-color: #C9CECE;
+@dark-red: #3a0000;
+@dark-grey-red: #312626;
+
+@font-face {
+	font-family: open_sans;
+	src: url('OpenSans-Regular.ttf');
+}
+
+@font-face {
+	font-family: open_sans_bold;
+	src: url('OpenSans-Semibold.ttf');
+}
+
+html{
+	box-shadow: inset 0 0px 50em @dark-grey-red, inset 0 10px 5em @dark-red;
+}
+
+html, body{
+	position: relative;
+	min-height: 100%;
+}
+
+body{
+	background-image: url('../img/background.png');
+	color: @font-color;
+	font-family: open_sans;
+
+	p{
+		font-size: 1.5em;
+	}
+}
+
+h1{
+	font-family: open_sans_bold;
+}
+
+.col{
+	padding: 10px;
+}
+.shadow{
+	text-shadow: 0px 0px 5px black;
+}
+
+.padding{
+	padding-bottom: 30px;
+}
+
+.email{
+	font-size: 2em;
+	border: 1px solid @dark-red;
+	border-radius: 10px;
+	box-shadow: 0px 0px 50px black, inset 0 10px .5em @dark-grey-red;
+	padding: 10px;
+	background: rgba(1,1,1,.3);
+	text-align: center;
+	vertical-align: middle;
+
+	input#text{
+		background-color: rgba(0,0,0,0);
+		border: none;
+	}
+
+	.btn{
+		background: rgba(1,1,1,.3);
+		color: @font-color;
+		border-color: @dark-red;
+		font-size: .8em;
+
+		&:hover{
+			background: rgba(1,1,1,.4);
+		}
+	}
+}

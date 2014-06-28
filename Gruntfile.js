@@ -3,19 +3,20 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ["./public/bower_components/bootstrap/less"],
+                    paths: ["less"],
                     yuicompress: true
                 },
                 files: {
-                    "./public/stylesheets/style.css": "./public/bower_components/bootstrap/less/bootstrap.less"
+                    "./public/css/style.css": "./less/bootstrap.less"
                 }
             }
         },
         watch: {
-            files: "./public/bower_components/bootstrap/less/*",
+            files: "./less/*",
             tasks: ["less"]
         }
     });
+    grunt.registerTask('default', ["less", "watch"]);
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
 };
