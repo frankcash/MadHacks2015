@@ -5,6 +5,59 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var fs = require("fs");
+var sqlite3 = require("sqlite3").verbose();
+var file = __dirname + "/db.sqlite";
+global.path = require('path');
+var exists = fs.existsSync(file);
+if (!exists) {
+    fs.openSync(file, "w");
+}
+global.db = new sqlite3.Database(file);
+if (!exists) {
+    console.log("creating new db");
+    db.serialize(function () {
+        db.run('CREATE TABLE "subscriptions" (  "email" blob PRIMARY KEY NOT NULL, '+
+                                        '"created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP));', function(err){
+            if(err) console.log(err);
+        });
+    });
+ }
+
+//setup password encryption
+var bcrypt = require('bcrypt-nodejs');
+//encrypt password -> callback(err, hash)
+global.cryptPassword = function (password, callback) {
+    bcrypt.genSalt(10, function (err, salt) {
+    if (err) return callback(err);
+      else {
+        bcrypt.hash(password, salt, null, function (err, hash) {
+            return callback(err, hash);
+        });
+      }
+  });
+ };
+//decript password -> callback(bool matches)
+global.comparePassword = function (password, hash, callback) {
+    bcrypt.compare(password, hash, function (err, isPasswordMatch) {
+      if (err) return callback(err);
+      else return callback(null, isPasswordMatch);
+    });
+ };
+global.s4 = function() {return Math.floor((1 + Math.random()) * 0x10000).toString(36);};
+global.getUser = function(req, success, fail){
+    if(req.signedCookies.user){
+        db.get('SELECT * FROM users WHERE user_name="'+req.signedCookies.user+'";', function(err, user){
+            if(err || !user)
+                {console.log(err); fail(err); return;} 
+            success(user);
+        });
+    }else{
+        fail({error:"no cookie"});
+    }
+}
+global.validator = require('validator');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -25,6 +78,7 @@ app.use('/users', users);
 
 app.listen(4000);
 console.log("listening on port 4000")
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,14 +9,15 @@
                 </div>
             </div>
             <div style="margin-top: 50px;" class="col-sm-12 email">
-                <form id="email-form" method="get" action="http://www.hackwisconsin.com/submit-email">
-                    <input type="text" placeholder="Email" name="email" id="text" class="col-sm-10">
+                <h1 style="text-align:center;display:none;" id="status"></h1>
+                <form id="email-form" action="/users/subscribe" method="post">
+                    <input type="text" placeholder="Email" name="email" id="email-in" class="col-sm-10">
                     <input type="submit" value="SUBMIT" class="col-sm-2 btn btn-default">
                 </form>
             </div>
         </div>
     </div>
-    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" class="modal fade bs-example-modal-sm">
+   <!--  <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" class="modal fade bs-example-modal-sm">
         <div class="modal fade bs-example-modal-sm">
             <div>
                 <div class="modal-dialog modal-sm">
@@ -24,38 +25,36 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <script type="text/javascript">
       $(document).ready(function() {
-          $('#myModal').modal('toggle');
-      })
-      $('#email-form').submit(function(event) {
+        $('#myModal').modal('toggle');
+        $('#email-form').submit(function(event) {
           event.preventDefault();
-          var constraints = {
-              from: {
-                  email: {
-                      message: "Please enter a valid Email Address"
-                  }
+          $("#status").hide(100);
+          $.ajax({
+            url:"/users/sub?email="+$("#email-in").val(),
+            type:"Get",
+            cache:false,
+            success: function(data){
+              console.log(data);
+              if(data.success == true){
+                $("#status").text("Success! Check your email for a confirmation of subscription status.");
+                $("#status").show(100);
+              }else{
+                $("#status").text("Failure! Check that the email your entered is a valid email address.");
+                $("#status").show(100);
               }
-          };
-          var email = $("input[name='email']").val();
-          var isValid = validate({
-              from: email
-          }, constraints);
-          if (isValid == null) {
-              var jqxhr = $.get("/subscribe/" + email, function(data) {
-                  // alert( "success" );
-              })
-                  .done(function() {
-                      console.log(jqxhr);
-                  })
-                  .fail(function() {
-                      alert("Unable to send email to server");
-                  })
-                  .always(function() {});
-          } else {
-              alert("Please enter a valid email")
-          }
+            },
+            done: function() {
+            },
+            fail: function() {
+              $("#status").text("Failure! Check that the email your entered is a valid email address.");
+              $("#status").show(100);
+            },
+            always: function() {}
+          });
+        })
       });
     </script>
 <% include part_foot %>
