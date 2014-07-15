@@ -4,16 +4,23 @@
 
 @font-face {
 	font-family: open_sans;
-	src: url('OpenSans-Regular.ttf');
+	src: url('/fonts/OpenSans-Regular.ttf');
 }
 
 @font-face {
 	font-family: open_sans_bold;
-	src: url('OpenSans-Semibold.ttf');
+	src: url('/fonts/OpenSans-Semibold.ttf');
 }
 
 html{
-	box-shadow: inset 0 0px 50em @dark-grey-red, inset 0 10px 5em @dark-red;
+/*	box-shadow: inset 0 0px 50em @dark-grey-red, inset 0 10px 5em @dark-red; */
+
+	background-image: url('../img/lake.jpg');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+    background-position:center;
 }
 
 html, body{
@@ -22,7 +29,7 @@ html, body{
 }
 
 body{
-	background-image: url('../img/background.png');
+	background:transparent;
 	color: @font-color;
 	font-family: open_sans;
 
@@ -71,4 +78,21 @@ h1{
 			background: rgba(1,1,1,.4);
 		}
 	}
+}
+
+#logo-banner{
+	margin-top: 20px;
+	background-position: center;
+	background-image: url(/img/logo.svg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	text-align: center;
+	height: 50vh;
+}
+.pop-text{
+	color: transparent;
+}
+
+#email-form{
+	
 }
