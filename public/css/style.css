@@ -5831,6 +5831,7 @@ h1 {
   }
 }
 .email input[type="text"] {
+  height: 48px;
   outline: none;
   padding: 2px;
   background: transparent;
@@ -5842,12 +5843,14 @@ h1 {
   .email input[type="text"] {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-right: 0px;
   }
 }
 .email input:focus {
   box-shadow: 0px 0px 5px #c84f3e, inset 0 0px 1em #c84f3e;
 }
 .email .btn {
+  height: 48px;
   background: #a43d2f;
   color: #df978d;
   border-color: #3a0000;
@@ -5858,6 +5861,10 @@ h1 {
 }
 .email .btn:hover {
   background: rgba(1, 1, 1, 0.4);
+  outline: none;
+}
+.email .btn:active {
+  outline: none;
 }
 @media only screen and (min-width: 768px) {
   .email .btn {

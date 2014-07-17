@@ -69,6 +69,7 @@ h1{
 	vertical-align: middle;
 
 	input[type="text"]{
+		height: 48px;
 		outline: none;
 		padding: 2px;
 		background: transparent;
@@ -79,6 +80,7 @@ h1{
 		@media only screen and (min-width : @screen-sm-min){
 			border-top-right-radius:0px;
 			border-bottom-right-radius:0px;
+			border-right:0px;
 		}
 	}
 	input:focus{
@@ -86,6 +88,8 @@ h1{
 	}
 
 	.btn{
+		outline: none;
+		height: 48px;
 		background: darken(@orangered, 10%);
 		color: lighten(@orangered, 20%);
 		border-color: @dark-red;
@@ -96,6 +100,10 @@ h1{
 		
 		&:hover{
 			background: rgba(1,1,1,.4);
+			outline: none;
+		}
+		&:active{
+			outline: none;
 		}
 		@media only screen and (min-width : @screen-sm-min){
 			border-top-left-radius:0px;
