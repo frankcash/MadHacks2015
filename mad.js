@@ -9,6 +9,7 @@ var fs = require("fs");
 var sqlite3 = require("sqlite3").verbose();
 var file = __dirname + "/db.sqlite";
 global.path = require('path');
+global.nm = require("nodemailer");
 var exists = fs.existsSync(file);
 if (!exists) {
     fs.openSync(file, "w");
@@ -70,6 +71,10 @@ app.set('view engine', 'ejs');
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

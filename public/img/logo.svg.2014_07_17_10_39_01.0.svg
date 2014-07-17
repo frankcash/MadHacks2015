@@ -15,10 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="logo.svg"
-   inkscape:export-filename="/home/joedailey/MadHacks2014/public/img/logo.png"
-   inkscape:export-xdpi="30.940001"
-   inkscape:export-ydpi="30.940001">
+   sodipodi:docname="logo.svg.2014_07_17_10_39_01.0.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -133,9 +130,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.061871843"
-     inkscape:cx="-3779.9955"
-     inkscape:cy="1249.0914"
+     inkscape:zoom="0.69999999"
+     inkscape:cx="1050.4405"
+     inkscape:cy="213.33617"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -395,7 +392,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
