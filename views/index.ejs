@@ -5,10 +5,10 @@
 							col-sm-8 col-sm-offset-2
 							col-md-6 col-md-offset-3
 							col-lg-6 col-lg-offset-3" id="logo-area">
-					<div id="capitol-back"></div>
-					<canvas id="capitol" width="1000" height="1400">
+					<canvas id="lightFunk" width="1000" height="200">
 					
 					</canvas>
+					<div id="capitol-back" ></div>
 
 				</div>				
 				<!-- <form id="email-form" action="/users/subscribe" method="post">
@@ -28,7 +28,7 @@
 
 
 		<script type="text/javascript">
-			var canvas = document.getElementById('capitol');
+			var canvas = document.getElementById('lightFunk');
 			var ctx = canvas.getContext('2d');
 
 			var capitol = $("#capitol-back");
@@ -41,14 +41,14 @@
 
 			var background_lum = 0;
 
-			var lightStart_X = width/2;
 			var lightStart_Y = 0;
+			var lightEnd_X = width/2;
+			var lightEnd_Y = height;
 
 
 
 			var lightFunk = function(){
-				var lightEnd_X = Math.round(Math.random()*width);
-				var lightEnd_Y = height;
+				var lightStart_X = (Math.random()*width);
 				
 				var rise = lightEnd_Y-lightStart_Y
 				var run = lightEnd_X-lightStart_X;
@@ -79,7 +79,7 @@
 					}else{
 						setTimeout(function(){
 							ctx.clearRect(0,0, width, height);
-							capitol.removeAttr("style");
+							// capitol.removeAttr("style");
 							background_lum = 0;
 						}, 20);
 						
@@ -97,35 +97,33 @@
 		 </script>
 		 
 		<style type="text/css">
-			#capitol{
+			#lightFunk{
 				width: 100%;
+				height: 20vh;
 				z-index: 1000;
-				position: relative;
-				top:0;left:0;right:0;bottom:0;
-
 			}
 			#capitol-back{
 				z-index: 999;
 				width: 100%;
-				height: 100%;
+				height: 80vh;
 				
-				background: url(/img/capitol_bright.png);
-				background-size: 100% auto;
-				background-repeat: no-repeat;
-				opacity: 0.0;
-				/*transition: opacity .03s linear;*/
-
-				position: absolute;
-				top:0;left:0;right:0;bottom:0;
-			}
-			#logo-area{
-				padding: 0px;
 				background: url(/img/capitol_dim.png);
 				background-size: 100% auto;
 				background-repeat: no-repeat;
+				/*opacity: 0.0;*/
+				/*transition: opacity .03s linear;*/
 
+/*				position: absolute;
+				top:0;left:0;right:0;bottom:0;*/
+			}
+			#logo-area{
+				padding: 0px;
+/*				background: url(/img/capitol_dim.png);
+				background-size: 100% auto;
+				background-repeat: no-repeat;*/
+/*
 				position: relative;
-				top:0;left:0;right:0;bottom:0;
+				top:0;left:0;right:0;bottom:0;*/
 			}
 		</style>
 
