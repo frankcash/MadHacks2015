@@ -1,24 +1,137 @@
 <% include part_head %>
 		<div class="container">
 			<div class="row">
-				<div  id="logo-banner">
-				</div>
-        <!-- <h1 style="margin-top: 50px; font-size: 3em;" class="text-center shadow">MadHacks</h1> -->
-				<div class="col-sm-12">
-					<div class="padding">
-						<h2 class="text-center pop-text">Stay Informed</h2>
-					</div>
-				</div>
-				<div style="margin-top: 50px;" class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 email">
-					<h1 style="text-align:center;display:none;" id="status"></h1>
-					<form id="email-form" action="/users/subscribe" method="post">
-            <!-- <input type="text" placeholder="Subscription Email" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12"> -->
-            <input type="text" style="color: #C84F3E;" value="email" onfocus="this.value=''; this.style.color='#d85F4E'" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12">
-						<input type="submit" value="SUBMIT" class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
-					</form>
-        </div>
+				<div class="col-xs-6 col-xs-offset-3
+							col-sm-8 col-sm-offset-2
+							col-md-6 col-md-offset-3
+							col-lg-6 col-lg-offset-3" id="logo-area">
+					<div id="capitol-back"></div>
+					<canvas id="capitol" width="1000" height="1400">
+					
+					</canvas>
+
+				</div>				
+				<!-- <form id="email-form" action="/users/subscribe" method="post">
+        			<input 	type="text" 
+        					style="color: #C84F3E;" 
+        					value="email" 
+        					onfocus="this.value=''; this.style.color='#d85F4E'" name="email" 
+        					id="email-in" 
+        					class="col-md-10 col-sm-9 col-xs-12">
+					<input 	type="submit" 
+							value="SUBMIT"
+							class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
+				 </form> -->
 			</div>
 		</div>
+		
+
+
+		<script type="text/javascript">
+			var canvas = document.getElementById('capitol');
+			var ctx = canvas.getContext('2d');
+
+			var capitol = $("#capitol-back");
+			var width = canvas.width;
+			var height = canvas.height;
+			var granularity_factor_Y = 15;
+			var granularity_Y = height/granularity_factor_Y;
+			var varience_X = 50;
+			var varience_Y = granularity_Y/10;
+
+			var background_lum = 0;
+
+			var lightStart_X = width/2;
+			var lightStart_Y = 0;
+
+
+
+			var lightFunk = function(){
+				var lightEnd_X = Math.round(Math.random()*width);
+				var lightEnd_Y = height;
+				
+				var rise = lightEnd_Y-lightStart_Y
+				var run = lightEnd_X-lightStart_X;
+				
+				var lightSlope = rise/run;
+				
+				ctx.beginPath();
+				ctx.lineWidth = 2;
+				ctx.strokeStyle = '#eef';
+				ctx.shadowBlur = 50; 
+				ctx.shadowColor = "rgba(150,100,255,1)";
+				ctx.moveTo(lightStart_X, lightStart_Y);
+
+				var lightStep = 0;
+				var lightFunkStep = function(){
+					var off_x = Math.random()*varience_X;
+					var off_y = Math.random()*varience_Y;
+
+					var x = lightStep*granularity_Y/lightSlope + lightStart_X + off_x;
+					var y = lightStep*granularity_Y + off_y;
+					
+					ctx.lineTo(x, y);
+					ctx.stroke();
+					if(lightStep < granularity_factor_Y){
+						setTimeout(lightFunkStep, 5);
+						background_lum += Math.round(1/granularity_factor_Y*1000)/1000;
+						// capitol.css("opacity", background_lum);
+					}else{
+						setTimeout(function(){
+							ctx.clearRect(0,0, width, height);
+							capitol.removeAttr("style");
+							background_lum = 0;
+						}, 20);
+						
+						setTimeout(lightFunk, Math.random()*500+800);
+					}
+
+					lightStep++;
+				}
+				lightFunkStep();
+			}
+			lightFunk();
+			
+
+
+		 </script>
+		 
+		<style type="text/css">
+			#capitol{
+				width: 100%;
+				z-index: 1000;
+				position: relative;
+				top:0;left:0;right:0;bottom:0;
+
+			}
+			#capitol-back{
+				z-index: 999;
+				width: 100%;
+				height: 100%;
+				
+				background: url(/img/capitol_bright.png);
+				background-size: 100% auto;
+				background-repeat: no-repeat;
+				opacity: 0.0;
+				/*transition: opacity .03s linear;*/
+
+				position: absolute;
+				top:0;left:0;right:0;bottom:0;
+			}
+			#logo-area{
+				padding: 0px;
+				background: url(/img/capitol_dim.png);
+				background-size: 100% auto;
+				background-repeat: no-repeat;
+
+				position: relative;
+				top:0;left:0;right:0;bottom:0;
+			}
+		</style>
+
+
+
+
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('#myModal').modal('toggle');
@@ -50,5 +163,5 @@
 					});
 				})
 			});
-		</script>
+		 </script>
 <% include part_foot %>
