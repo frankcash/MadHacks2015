@@ -26,7 +26,50 @@
 				 </form> -->
 			</div>
 		</div>
+		<script type="text/javascript">
+			flashCanvas = document.getElementById("flashBacks");
+			lightFunkcanvas1 = document.getElementById("lightFunk1");
+			lightFunkcanvas2 = document.getElementById("lightFunk2");
+			lightFunkcanvas3 = document.getElementById("lightFunk3");
+			rainCanvas = document.getElementById('rain');
+			capitolHeightPercent = 0.70;
+			height = 0;
+			width = 0;
+			window.onresize = function onresize() {
+				flashCanvas.height = window.innerHeight;
+				flashCanvas.width = window.innerWidth;
+				lightFunkcanvas1.height = window.innerHeight;
+				lightFunkcanvas1.width = window.innerWidth;
+				lightFunkcanvas2.height = window.innerHeight;
+				lightFunkcanvas2.width = window.innerWidth;
+				lightFunkcanvas3.height = window.innerHeight;
+				lightFunkcanvas3.width = window.innerWidth;
+				rainCanvas.height = window.innerHeight;
+				rainCanvas.width = window.innerWidth;
+				height = window.innerHeight;
+				width = window.innerWidth;
+				display = {
+					height: height*capitolHeightPercent
+				}
+				display.width = display.height*captitolDark.width/captitolDark.height;
+				display.x = width/2-display.width/2;
+				display.y = height-display.height;
+			}
+			
 		
+			captitolDark = new Image();
+			captitolLite = new Image();
+			captitolDark.onload = function(){
+				window.onresize();
+			}
+			captitolLite.onload = function(){
+				window.onresize();
+			}
+			captitolDark.src = "/img/capitol_dim.png";
+			captitolLite.src = "/img/capitol_bright.png";
+
+			fadePercent = 0;
+		</script>
 		<script type="text/javascript">
 			makeItRain = function(){
 				requestAnimFrame = (function() {
@@ -41,7 +84,6 @@
 				})();
 
 
-				var rainCanvas = document.getElementById('rain');
 				var rainCtx = rainCanvas.getContext('2d');
 
 				var wind = 4;
@@ -281,53 +323,29 @@
 		 </script>
 		<script type="text/javascript" src="http://sheepeuh.com/rain/dat.gui.js"></script>
 		<script type="text/javascript">
-			var flashCanvas = document.getElementById("flashBacks");
-			var flash = flashCanvas.getContext('2d');
-			window.onresize = function onresize() {
-				flashCanvas.height = window.innerHeight;
-				flashCanvas.width = window.innerWidth;
-			}
-			window.onresize();
-			flash.fillStyle = "#444466";
-			var fade;
-			var fadePercent = 0;
-			var haveFlashBack = function(){
-				if(fade){
-					clearInterval(fade);
-				}
-				fadePercent = 0.3;
-				fade = setInterval(function(){
-					if(fadePercent <= 0){
-						clearInterval(fade);
-						flash.clearRect(0,0, flashCanvas.width, flashCanvas.height);
-						return;
-					}
+			var doFlashBacks = function(){
+	
+				var flash = flashCanvas.getContext('2d');
+				
+				flash.fillStyle = "#5a5a66";
+				setInterval(function(){
 					flash.clearRect(0,0, flashCanvas.width, flashCanvas.height);
-					flash.opacity = fadePercent;
-					fadePercent -= 0.1;
-					flash.fillRect(0,0, flashCanvas.width, flashCanvas.height);
-				}, 1);
+					if(fadePercent > 0){
+						flash.opacity = fadePercent/10.0;
+						console.log(fadePercent/10.0);
+						flash.fillRect(0,0, flashCanvas.width, flashCanvas.height);
+						flash.opacity = 1;
+						flash.drawImage(captitolLite, display.x, display.y, display.width, display.height);
+					}else{
+						flash.drawImage(captitolDark, display.x, display.y, display.width, display.height);	
+					}
+					fadePercent--;	
+				}, 5);
 			}
-
-
-			var captitolImg = new Image();
-			lightTheFunk = function(canvasID){
-				var canvas = document.getElementById(canvasID);
+			doFlashBacks();
+			
+			lightTheFunk = function(canvas){
 				var ctx = canvas.getContext('2d');
-
-				var width = canvas.width;
-				var height = canvas.height;
-				capitolHeightPercent = 0.70;
-
-				window.onresize = function onresize() {
-					height = canvas.height = window.innerHeight;
-					width = canvas.width = window.innerWidth;
-				}
-				window.onresize();
-
-				var capitol = $("#capitol-back");
-
-				var background_lum = 0;
 
 				var lightStart_Y = 0;
 				var lightEnd_X = width/2;
@@ -340,7 +358,7 @@
 				var varience_Y = granularity_Y/10;
 
 				var lightFunk = function(){
-					haveFlashBack();
+					fadePercent = 3.0
 
 					var lightStart_X = (Math.random()*width);
 					
@@ -371,21 +389,11 @@
 						ctx.stroke();
 						if(lightStep < granularity_factor_Y){
 							setTimeout(lightFunkStep, 5);
-							background_lum += Math.round(1/granularity_factor_Y*1000)/1000;
-							// capitol.css("opacity", background_lum);
+							
 						}else{
 							setTimeout(function(){
 								ctx.clearRect(0,0, width, height);
-								var display = {
-									height: height*capitolHeightPercent
-								}
-								display.width = display.height*captitolImg.width/captitolImg.height;
-								display.x = width/2-display.width/2;
-								display.y = height-display.height;
-
-								ctx.shadowBlur = 0; 
-								ctx.drawImage(captitolImg, display.x, display.y, display.width, display.height);
-								background_lum = 0;
+								
 							}, 20);
 							
 							setTimeout(lightFunk, Math.random()*500+800);
@@ -398,19 +406,15 @@
 				lightFunk();
 			};
 			$(document).ready(function(){
-
-				captitolImg.onload = function() {
-					setTimeout(function(){
-						lightTheFunk("lightFunk1");
-					},Math.random()*250+100)
-					setTimeout(function(){
-						lightTheFunk("lightFunk2");
-					}, Math.random()*500+100)
-					setTimeout(function(){
-						lightTheFunk("lightFunk3");
-					}, Math.random()*1000+100)
-				};
-				captitolImg.src = "/img/capitol_dim.png";
+				setTimeout(function(){
+					lightTheFunk(lightFunk1);
+				},Math.random()*250+100)
+				setTimeout(function(){
+					lightTheFunk(lightFunk2);
+				}, Math.random()*500+100)
+				setTimeout(function(){
+					lightTheFunk(lightFunk3);
+				}, Math.random()*1000+100)
 			});
 		 </script>
 		 
