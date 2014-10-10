@@ -30,14 +30,14 @@ makeItRain = function(){
 	var nombreb = 2;
 
 	var controls = {
-		rain : 2,
-		Object : "Umbrella",
-		alpha : 1,
+		rain : 8,
+		Object : "none",
+		alpha : 0.9,
 		color : 200,
 		auto : false,
 		opacity : 1,
-		saturation : 100,
-		lightness : 50,
+		saturation : 53,
+		lightness : 10,
 		back : 100,
 		red : 0,
 		green : 0,
