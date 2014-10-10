@@ -6,9 +6,10 @@
 							col-sm-8 col-sm-offset-2
 							col-md-6 col-md-offset-3
 							col-lg-6 col-lg-offset-3" id="logo-area">
-					<canvas id="lightFunk" width="1000" height="200">
-					
-					</canvas>
+					<canvas id="flashBacks" class="lightFunkers"></canvas>
+					<canvas id="lightFunk1" class="lightFunkers"></canvas>
+					<canvas id="lightFunk2" class="lightFunkers"></canvas>
+					<canvas id="lightFunk3" class="lightFunkers"></canvas>
 					<div id="capitol-back" ></div>
 
 				</div>				
@@ -39,19 +40,22 @@
 				};
 				})();
 
+
 				var rainCanvas = document.getElementById('rain');
 				var rainCtx = rainCanvas.getContext('2d');
 
 				var wind = 4;
 
 				var width = 0;
+				var width_offset = 0;
 				var height = 0;
 
 				window.onresize = function onresize() {
 					height = rainCanvas.height = window.innerHeight;
-					width = rainCanvas.width = window.innerWidth + window.innerHeight*wind/5;
+					width_offset = window.innerHeight*wind/5
+					width = rainCanvas.width = window.innerWidth + width_offset;
 					console.log()
-					$(rainCanvas).css("left", 0 - (window.innerHeight*wind/5) + "px")
+					$(rainCanvas).css("left", 0 - (width_offset) + "px")
 				}
 
 				window.onresize();
@@ -62,8 +66,8 @@
 					Y : 0
 				}
 
-				window.onmousemove = function onmousemove(event) {
-					mouse.X = event.clientX;
+				window.onmousemove = function(event) {
+					mouse.X = event.clientX + width_offset;
 					mouse.Y = event.clientY;
 				}
 
@@ -74,7 +78,7 @@
 
 				var controls = {
 					rain : 2,
-					Object : "Nothing",
+					Object : "Umbrella",
 					alpha : 1,
 					color : 200,
 					auto : false,
@@ -270,31 +274,74 @@
 					rendu(rainCtx);
 				})();
 			};
-			makeItRain();
+
+			$(document).ready(function(){
+				makeItRain();
+			});
 		 </script>
-<script type="text/javascript" src="http://sheepeuh.com/rain/dat.gui.js"></script>
+		<script type="text/javascript" src="http://sheepeuh.com/rain/dat.gui.js"></script>
 		<script type="text/javascript">
-			lightTheFunk = function(){
-				var canvas = document.getElementById('lightFunk');
+			var flashCanvas = document.getElementById("flashBacks");
+			var flash = flashCanvas.getContext('2d');
+			window.onresize = function onresize() {
+				flashCanvas.height = window.innerHeight;
+				flashCanvas.width = window.innerWidth;
+			}
+			window.onresize();
+			flash.fillStyle = "#444466";
+			var fade;
+			var fadePercent = 0;
+			var haveFlashBack = function(){
+				if(fade){
+					clearInterval(fade);
+				}
+				fadePercent = 0.3;
+				fade = setInterval(function(){
+					if(fadePercent <= 0){
+						clearInterval(fade);
+						flash.clearRect(0,0, flashCanvas.width, flashCanvas.height);
+						return;
+					}
+					flash.clearRect(0,0, flashCanvas.width, flashCanvas.height);
+					flash.opacity = fadePercent;
+					fadePercent -= 0.1;
+					flash.fillRect(0,0, flashCanvas.width, flashCanvas.height);
+				}, 1);
+			}
+
+
+			var captitolImg = new Image();
+			lightTheFunk = function(canvasID){
+				var canvas = document.getElementById(canvasID);
 				var ctx = canvas.getContext('2d');
 
-				var capitol = $("#capitol-back");
 				var width = canvas.width;
 				var height = canvas.height;
-				var granularity_factor_Y = 15;
-				var granularity_Y = height/granularity_factor_Y;
-				var varience_X = 50;
-				var varience_Y = granularity_Y/10;
+				capitolHeightPercent = 0.70;
+
+				window.onresize = function onresize() {
+					height = canvas.height = window.innerHeight;
+					width = canvas.width = window.innerWidth;
+				}
+				window.onresize();
+
+				var capitol = $("#capitol-back");
 
 				var background_lum = 0;
 
 				var lightStart_Y = 0;
 				var lightEnd_X = width/2;
-				var lightEnd_Y = height;
+				console.log(height*Math.abs(1-capitolHeightPercent));
+				var lightEnd_Y = height*Math.abs(1-capitolHeightPercent);
 
-
+				var granularity_factor_Y = 15;
+				var granularity_Y = (lightEnd_Y-lightStart_Y)/granularity_factor_Y;
+				var varience_X = 50;
+				var varience_Y = granularity_Y/10;
 
 				var lightFunk = function(){
+					haveFlashBack();
+
 					var lightStart_X = (Math.random()*width);
 					
 					var rise = lightEnd_Y-lightStart_Y
@@ -329,7 +376,15 @@
 						}else{
 							setTimeout(function(){
 								ctx.clearRect(0,0, width, height);
-								// capitol.removeAttr("style");
+								var display = {
+									height: height*capitolHeightPercent
+								}
+								display.width = display.height*captitolImg.width/captitolImg.height;
+								display.x = width/2-display.width/2;
+								display.y = height-display.height;
+
+								ctx.shadowBlur = 0; 
+								ctx.drawImage(captitolImg, display.x, display.y, display.width, display.height);
 								background_lum = 0;
 							}, 20);
 							
@@ -342,9 +397,21 @@
 				}
 				lightFunk();
 			};
-			lightTheFunk();
+			$(document).ready(function(){
 
-
+				captitolImg.onload = function() {
+					setTimeout(function(){
+						lightTheFunk("lightFunk1");
+					},Math.random()*250+100)
+					setTimeout(function(){
+						lightTheFunk("lightFunk2");
+					}, Math.random()*500+100)
+					setTimeout(function(){
+						lightTheFunk("lightFunk3");
+					}, Math.random()*1000+100)
+				};
+				captitolImg.src = "/img/capitol_dim.png";
+			});
 		 </script>
 		 
 		<style type="text/css">
@@ -353,20 +420,25 @@
 /*				width: 100vw;
 				height: 100vh; */
 				top: 0px; left: 0px;
+				/*z-index: 100;*/
+			}
+			.lightFunkers{
+				width: 100vw;
+				height: 100vh;
+				position: fixed;
+				top:0;left:0;right:0;bottom:0;
 			}
 			#lightFunk{
-				width: 100%;
-				height: 20vh;
 				z-index: 1000;
 			}
 			#capitol-back{
 				z-index: 999;
 				width: 100%;
 				height: 80vh;
-				
+				/*
 				background: url(/img/capitol_dim.png);
 				background-size: 100% auto;
-				background-repeat: no-repeat;
+				background-repeat: no-repeat;*/
 				/*opacity: 0.0;*/
 				/*transition: opacity .03s linear;*/
 
@@ -375,6 +447,8 @@
 			}
 			#logo-area{
 				padding: 0px;
+				position:fixed;
+				bottom: 0px;
 /*				background: url(/img/capitol_dim.png);
 				background-size: 100% auto;
 				background-repeat: no-repeat;*/
