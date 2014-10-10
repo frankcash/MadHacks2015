@@ -35,8 +35,10 @@
 			capitolHeightPercent = 0.70;
 			height = 0;
 			width = 0;
+			wind = 5
+			width_offset = 0;
 			display = {};
-			window.onresize = function onresize() {
+			window.onresize = function() {
 				flashCanvas.height = window.innerHeight;
 				flashCanvas.width = window.innerWidth;
 				lightFunkcanvas1.height = window.innerHeight;
@@ -47,6 +49,11 @@
 				lightFunkcanvas3.width = window.innerWidth;
 				rainCanvas.height = window.innerHeight;
 				rainCanvas.width = window.innerWidth;
+				width_offset = window.innerHeight*wind/5
+                                rainCanvas.width = window.innerWidth + width_offset;
+                                $(document).ready(function(){
+					$(rainCanvas).css("left", 0 - (width_offset) + "px");
+				});
 				height = window.innerHeight;
 				width = window.innerWidth;
 				display.height = height*capitolHeightPercent;
@@ -85,22 +92,12 @@
 
 				var rainCtx = rainCanvas.getContext('2d');
 
-				var wind = 4;
+
 
 				var width = 0;
 				var width_offset = 0;
 				var height = 0;
 
-				window.onresize = function onresize() {
-					height = rainCanvas.height = window.innerHeight;
-					width_offset = window.innerHeight*wind/5
-					width = rainCanvas.width = window.innerWidth + width_offset;
-					console.log()
-					$(rainCanvas).css("left", 0 - (width_offset) + "px")
-				}
-
-				window.onresize();
-				$(document).ready(window.onresize);
 
 				var mouse = {
 					X : 0,
