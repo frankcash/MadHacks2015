@@ -35,6 +35,7 @@
 			capitolHeightPercent = 0.70;
 			height = 0;
 			width = 0;
+			display = {};
 			window.onresize = function onresize() {
 				flashCanvas.height = window.innerHeight;
 				flashCanvas.width = window.innerWidth;
@@ -48,9 +49,7 @@
 				rainCanvas.width = window.innerWidth;
 				height = window.innerHeight;
 				width = window.innerWidth;
-				display = {
-					height: height*capitolHeightPercent
-				}
+				display.height: height*capitolHeightPercent;
 				display.width = display.height*captitolDark.width/captitolDark.height;
 				display.x = width/2-display.width/2;
 				display.y = height-display.height;
