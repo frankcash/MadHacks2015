@@ -48,3 +48,5 @@ public/css/styles.css
 sftp-config.json
 
 *.sqlite
+
+keys.json

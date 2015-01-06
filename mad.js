@@ -4,8 +4,12 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var sendGrid = require('sendgrid')();
-
+try{
+    global.keys = require("./keys.json");
+}catch( e ){
+    console.log("You most likely don't have the 'keys.json', get it from the shared google drive folder");
+    return;
+}
 var fs = require("fs");
 var sqlite3 = require("sqlite3").verbose();
 var file = __dirname + "/db.sqlite";
