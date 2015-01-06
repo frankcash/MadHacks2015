@@ -1,0 +1,78 @@
+<% include part_head %>
+		<canvas id="rain"		class="lightFunkers"></canvas>
+		<canvas id="flashBacks" class="lightFunkers"></canvas>
+		<canvas id="lightFunk1" class="lightFunkers"></canvas>
+		<canvas id="lightFunk2" class="lightFunkers"></canvas>
+		<canvas id="lightFunk3" class="lightFunkers"></canvas>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-3
+							col-sm-8 col-sm-offset-2
+							col-md-6 col-md-offset-3
+							col-lg-6 col-lg-offset-3" id="logo-area">
+					
+		
+				<!-- <form id="email-form" action="/users/subscribe" method="post">
+        			<input 	type="text" 
+        					style="color: #C84F3E;" 
+        					value="email" 
+        					onfocus="this.value=''; this.style.color='#d85F4E'" name="email" 
+        					id="email-in" 
+        					class="col-md-10 col-sm-9 col-xs-12">
+					<input 	type="submit" 
+							value="SUBMIT"
+							class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
+				 </form> -->
+			</div>
+		</div>
+		<script type="text/javascript" src="/js/globals.js"></script>
+		<script type="text/javascript" src="/js/rain.js"></script>
+		<!--<script type="text/javascript" src="/js/rain.controls.js"></script>-->
+		<script type="text/javascript" src="/js/flashbacks.js"></script>
+		<script type="text/javascript" src="/js/lightfunk.js"></script>
+		 
+		<style type="text/css">
+			.lightFunkers{
+				width: 100vw;
+				height: 100vh;
+				position: fixed;
+				top:0;left:0;right:0;bottom:0;
+			}
+		</style>
+
+
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#myModal').modal('toggle');
+				$('#email-form').submit(function(event) {
+					event.preventDefault();
+					$("#status").hide(100);
+					$.ajax({
+						url:"/users/subscribe",
+						type:"POST",
+            data:{email:$("#email-in").val()},
+						cache:false,
+						success: function(data){
+							console.log(data);
+							if(data.success == true){
+								$("#status").text("Success! Check your email for a confirmation of subscription status.");
+								$("#status").show(100);
+							}else{
+								$("#status").text("Failure! Check that the email your entered is a valid email address.");
+								$("#status").show(100);
+							}
+						},
+						done: function() {
+						},
+						fail: function() {
+							$("#status").text("Failure! Check that the email your entered is a valid email address.");
+							$("#status").show(100);
+						},
+						always: function() {}
+					});
+				})
+			});
+		 </script>
+<% include part_foot %>
