@@ -16,8 +16,8 @@
 						Something went wrong, please try again.
 					</h1>
 					<form id="email-form" action="/users/subscribe" method="post">
-						<input type="text" style="color: #C84F3E;" placeholder="email" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12">
-						<input type="submit" value="SUBMIT" class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
+						<input id="email-in" type="text" style="color: #C84F3E;" placeholder="email" name="email" class="col-md-10 col-sm-9 col-xs-12">
+						<input id="email-submit" type="submit" value="SUBMIT" class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
 					</form>
 				</div>
 			</div>
@@ -33,6 +33,10 @@
 						type:"POST",
 						data:{email:$("#email-in").val()},
 						cache:false,
+						beforeSend: function(){
+							$("#email-submit").prop('disabled', true);
+							$("#email-in").prop('disabled', true);
+						},
 						success: function(data){
 							if(data.success == true){
 								$("#status-success").show();
@@ -55,7 +59,10 @@
 								$("#email-form").show();
 							}, 2000);
 						},
-						always: function() {}
+						always: function() {
+							$("#email-submit").prop('disabled', true);
+							$("#email-in").prop('disabled', true);
+						}
 					});
 				})
 			});

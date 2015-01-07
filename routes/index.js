@@ -5,6 +5,9 @@ var router = express.Router();
 router.get('/', function(req, res) {
   res.render('index', { title: 'Madhacks' });
 });
+router.get('/email', function(req, res) {
+  res.render('email_subscribe', { title: 'Madhacks', rowid:0 });
+});
 
 router.get('/lightshow', function(req, res) {
   res.render('lightning', { title: 'Madhacks' });

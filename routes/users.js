@@ -1,6 +1,8 @@
 console.log(global.keys.sendgrid.username, global.keys.sendgrid.password);
 
 var sendGrid = require('sendgrid')(global.keys.sendgrid.username, global.keys.sendgrid.password);
+var ejs = require('ejs');
+var fs = require('fs');
 
 var express = require('express');
 var router = express.Router();
@@ -25,24 +27,44 @@ router.post('/subscribe', function(req, res){
 			}
 			console.log(err); return;
 		}
+		db.get("SELECT rowid FROM subscriptions WHERE email='"+email+"';", function(err, user){
+			if(!err && user != null){
+				
+				var subEmail = new sendGrid.Email();
+				subEmail.addTo(email);
+				subEmail.setFrom("noreply@madhacks.org");
+				subEmail.fromname = "Madhacks";
+				subEmail.setSubject("MadHacks News Subscription");
+				var view = fs.readFileSync(__dirname + '/../views/email_subscribe.ejs', 'utf8');
+				var rendered = ejs.render(view, {id:user.rowid});
+				console.log(rendered);
+				subEmail.setHtml(rendered);
 
-		var subEmail = new sendGrid.Email();
-		console.log(email);
-		subEmail.addTo(email);
-		subEmail.setFrom("noreply@madhacks.org");
-		subEmail.setSubject("MadHacks News Subscription");
-		subEmail.setHtml("You have been subscribed to MadHacks emails. #HackCity");
-		console.log(subEmail);
-		sendGrid.send(subEmail, function(err, json){
-			if(!err){
-				res.send(200, {success:true});
+				subEmail.setText("You have been subscribed to MadHacks emails. #HackCity To unsubscribe visit http://madhacks.org/unsubscribe?id="+user.rowid);
+				console.log(subEmail);
+				sendGrid.send(subEmail, function(err, json){
+					if(!err){
+						res.send(200, {success:true});
+					}else{
+						console.log(err, json)
+						db.run("DELETE FROM subscriptions WHERE email='"+email+"';");
+						res.send(200, {success:false, reason:"sendgrid error"});
+					} 
+				});
+
 			}else{
-				console.log(err, json)
-				db.run("DELETE FROM subscriptions WHERE email='"+email+"';");
-				res.send(200, {success:false, reason:"sendgrid error"});
+				console.log(err, json);
+				res.send(200, {success:false, reason:"db error"});
 			}
 		});
 	});
 });
 
+router.get('/unsubscribe', function(req, res){
+	console.log(req.query);
+	var id = req.query.id;
+	if(id == parseInt(id, 10))
+	db.run("DELETE FROM subscriptions WHERE rowid='"+id+"';");
+	res.render("unsubscribe", {title:"Unsubscribed"});
+});
 module.exports = router;
