@@ -15,6 +15,11 @@ router.get('/', function(req, res) {
 router.post('/subscribe', function(req, res){
 	console.log(req.body);
 	var email = validator.toString(req.body.email);
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(email) == false){
+    	res.send(200, {success:false, reason:"invalid"});
+    	return;
+    }
 	
 	if(email == undefined){res.send(200, {success:false, reason:"Email is not valid"}); return;}
 

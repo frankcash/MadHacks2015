@@ -13,7 +13,10 @@
 						You have successfully subscribed to updates from MadHacks.
 					</h1>
 					<h1 style="text-align:center;display:none;" id="status-failure">
-						Something went wrong, please try again.
+						Something went wrong, please check the address and try again.
+					</h1>
+					<h1 style="text-align:center;display:none;" id="status-invalid">
+						Invalid email address
 					</h1>
 					<h1 style="text-align:center;display:none;" id="status-already">
 						That email address is already subscribed.
@@ -51,6 +54,13 @@
 									$("#status-already").hide();
 									$("#email-form").show();
 								}, 2000);
+							}else if(data.reason == "invalid"){
+								$("#status-invalid").show();
+								$("#email-form").hide();
+								setTimeout(function(){
+									$("#status-invalid").hide();
+									$("#email-form").show();
+								}, 1000);
 							}else{
 								$("#status-failure").show();
 								$("#email-form").hide();
