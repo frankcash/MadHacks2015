@@ -15,6 +15,9 @@
 					<h1 style="text-align:center;display:none;" id="status-failure">
 						Something went wrong, please try again.
 					</h1>
+					<h1 style="text-align:center;display:none;" id="status-already">
+						That email address is already subscribed.
+					</h1>
 					<form id="email-form" action="/users/subscribe" method="post">
 						<input id="email-in" type="text" style="color: #C84F3E;" placeholder="email" name="email" class="col-md-10 col-sm-9 col-xs-12">
 						<input id="email-submit" type="submit" value="SUBMIT" class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
@@ -41,6 +44,13 @@
 							if(data.success == true){
 								$("#status-success").show();
 								$("#email-form").hide();
+							}else if(data.reason == "already"){
+								$("#status-already").show();
+								$("#email-form").hide();
+								setTimeout(function(){
+									$("#status-already").hide();
+									$("#email-form").show();
+								}, 2000);
 							}else{
 								$("#status-failure").show();
 								$("#email-form").hide();
@@ -50,8 +60,7 @@
 								}, 2000);
 							}
 						},
-						done: function() {},
-						fail: function() {
+						error: function() {
 							$("#status-failure").show();
 							$("#email-form").hide();
 							setTimeout(function(){
@@ -59,9 +68,9 @@
 								$("#email-form").show();
 							}, 2000);
 						},
-						always: function() {
-							$("#email-submit").prop('disabled', true);
-							$("#email-in").prop('disabled', true);
+						complete: function() {
+							$("#email-submit").prop('disabled', false);
+							$("#email-in").prop('disabled', false);
 						}
 					});
 				})

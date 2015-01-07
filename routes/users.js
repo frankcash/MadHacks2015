@@ -21,11 +21,11 @@ router.post('/subscribe', function(req, res){
 	db.run("INSERT INTO subscriptions ('email') VALUES ('"+email+"');", function(err){
 		if(err){
 			if(err.errno == 19){
-				res.send(200, {success:false, reason:"Already exists"});
+				res.send(200, {success:false, reason:"already"});
 			}else{
 				res.send(200, {success:false, reason:"Database error"});
 			}
-			console.log(err); return;
+			console.log(err.errno); return;
 		}
 		db.get("SELECT rowid FROM subscriptions WHERE email='"+email+"';", function(err, user){
 			if(!err && user != null){
