@@ -3,20 +3,23 @@
 			<div class="row">
 				<div  id="logo-banner">
 				</div>
-        <!-- <h1 style="margin-top: 50px; font-size: 3em;" class="text-center shadow">MadHacks</h1> -->
 				<div class="col-sm-12">
 					<div class="padding">
 						<h2 class="text-center pop-text">Stay Informed</h2>
 					</div>
 				</div>
 				<div style="margin-top: 50px;" class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 email">
-					<h1 style="text-align:center;display:none;" id="status"></h1>
+					<h1 style="text-align:center;display:none;" id="status-success">
+						You have successfully subscribed to updates from MadHacks.
+					</h1>
+					<h1 style="text-align:center;display:none;" id="status-failure">
+						Something went wrong, please try again.
+					</h1>
 					<form id="email-form" action="/users/subscribe" method="post">
-            <!-- <input type="text" placeholder="Subscription Email" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12"> -->
-            <input type="text" style="color: #C84F3E;" value="email" onfocus="this.value=''; this.style.color='#d85F4E'" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12">
+						<input type="text" style="color: #C84F3E;" placeholder="email" name="email" id="email-in" class="col-md-10 col-sm-9 col-xs-12">
 						<input type="submit" value="SUBMIT" class="col-md-2 col-sm-3 col-xs-12 btn btn-default">
 					</form>
-        </div>
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -28,24 +31,29 @@
 					$.ajax({
 						url:"/users/subscribe",
 						type:"POST",
-            data:{email:$("#email-in").val()},
+						data:{email:$("#email-in").val()},
 						cache:false,
 						success: function(data){
-							console.log(data);
 							if(data.success == true){
-								$("#status").text("Success! Check your email for a confirmation of subscription status.");
-								$("#email-form").hide(0);
-								$("#status").show(100);
+								$("#status-success").show();
+								$("#email-form").hide();
 							}else{
-								$("#status").text("Failure! Check that the email your entered is a valid email address.");
-								$("#status").show(100);
+								$("#status-failure").show();
+								$("#email-form").hide();
+								setTimeout(function(){
+									$("#status-failure").hide();
+									$("#email-form").show();
+								}, 2000);
 							}
 						},
-						done: function() {
-						},
+						done: function() {},
 						fail: function() {
-							$("#status").text("Failure! Check that the email your entered is a valid email address.");
-							$("#status").show(100);
+							$("#status-failure").show();
+							$("#email-form").hide();
+							setTimeout(function(){
+								$("#status-failure").hide();
+								$("#email-form").show();
+							}, 2000);
 						},
 						always: function() {}
 					});

@@ -123,3 +123,20 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+
+var backup = function(){
+    var error = function(err){
+        console.log(err);
+    }
+    var rd = fs.createReadStream("db.sqlite");
+    rd.on("error", error);
+
+
+    var wr = fs.createWriteStream("../madhacksBackups/"+(new Date().getTime())+".sqlite");
+    wr.on("error", error);
+
+    rd.pipe(wr);
+}
+backup();
+setInterval(backup, 86400000)
