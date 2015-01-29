@@ -12,12 +12,6 @@ body, html{
 .inner{
 	height: 100%;
 	width:40%;
-
-	-webkit-transform: skew(-20deg);
-	-moz-transform: skew(-20deg);
-	-ms-transform: skew(-20deg);
-	-o-transform: skew(-20deg);
-	transform: skew(-20deg);
 	background: rgba(0,0,0,1);
 	padding-left: 50px;
 	padding-right: 50px;
@@ -25,7 +19,14 @@ body, html{
 	overflow: auto;
 
 	position: fixed;
+
+	-webkit-transform: skew(-20deg);
+	-moz-transform: skew(-20deg);
+	-ms-transform: skew(-20deg);
+	-o-transform: skew(-20deg);
+	transform: skew(-20deg);
 }
+
 .inner::-webkit-scrollbar {
 	width: 1em;
 }
