@@ -5902,3 +5902,16 @@ h1 {
 .pop-text {
   color: transparent;
 }
+/*applications*/
+.form-split-left {
+  padding-left: 0px;
+  padding-right: 5px;
+}
+.form-split-right {
+  padding-right: 0px;
+  padding-left: 5px;
+}
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+}

@@ -1,0 +1,151 @@
+<% include part_head %>
+	<div class="col-md">
+		
+	</div>
+	<form class="col-xs-12 
+				 col-sm-10 col-sm-offset-1
+				 col-md-8  col-md-offset-2
+				 col-lg-6  col-lg-offset-3"
+		  action="/users/apply"
+		  method="POST">
+		<div class="col-xs-12 col-sm-6">
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-name" name="name" placeholder="name">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-school" name="school" placeholder="school">
+			</div>
+			<div class="form-group">
+				<div class="checkbox">
+					<label for="apply-food-vegetarian">Vegetarian
+						<input class="" type="checkbox" id="apply-food-vegetarian" name="food_vegetarian" placeholder="vegetarian">
+					</label>
+				</div>
+				<div class="checkbox">
+					<label for="apply-food-vegan">Vegan</label>
+					<input class="" type="checkbox" id="apply-food-vegan" name="food_vegan" placeholder="vegan">
+				</div>
+				<div class="checkbox">
+					<label class="" for="apply-food-dairyfree">Glutten Free</label>
+					<input class="" type="checkbox" id="apply-food-gluttenfree" name="food_gluttenfree" placeholder="gluttenfree">
+				</div>
+				<div class="checkbox">
+					<label for="apply-food-dairyfree">Dairy Free</label>
+					<input class="" type="checkbox" id="apply-food-dairyfree" name="food_dairyfree" placeholder="dairyfree">
+				</div>
+				<div class="checkbox">
+					<label for="apply-food-kosher">Kosher</label>
+					<input class="" type="checkbox" id="apply-food-kosher" name="food_kosher" placeholder="kosher">
+				</div>
+				<div class="checkbox">
+					<label for="apply-food-halal">Halal</label>
+					<input class="" type="checkbox" id="apply-food-halal" name="food_halal" placeholder="halal">
+				</div>
+				<div class="checkbox">
+					<input class="" type="checkbox" id="apply-food-halal" name="food_halal" placeholder="halal">
+					<input class="form-control" type="text" id="apply-food-other" name="food_other" placeholder="Other">
+				</div>
+			</div>	
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-address" name="address" placeholder="address">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-address-2" name="address-2" placeholder="address-2">
+			</div>
+			<div class="form-group">
+				<div class="col-xs-9 col-sm-9 form-split-left">
+					<input class="form-control" type="text" id="apply-city" name="city" placeholder="city">	
+				</div>
+				<div class="col-xs-3 col-sm-3 form-split-right">
+					<input class="form-control" type="text" id="apply-state" name="state" placeholder="state">
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-9 col-sm-9 form-split-left">
+					<input class="form-control" type="text" id="apply-country" name="country" placeholder="country">
+				</div>
+				<div class="col-xs-3 col-sm-3 form-split-right">
+					<input class="form-control" type="text" id="apply-zip" name="zip" placeholder="zip">
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6" style="margin-bottom:1.6em;">
+			<label for="apply-travel">Will you be requesting travel reimbursment?</label>
+			<div class="btn-group" data-toggle="buttons" >
+				<label class="btn btn-default active">
+					<input type="checkbox" id="apply-travel-no" name="travel" value="false" autocomplete="off" checked> No
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox" id="apply-travel-yes" name="travel" value="true" autocomplete="off"> Yes
+				</label>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-Github" name="Github" placeholder="Github">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-linkedIn" name="linkedIn" placeholder="linkedIn">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" id="apply-Dribble" name="Dribble" placeholder="Dribble">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="file" id="apply-resume" name="resume" placeholder="resume">
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<label for="apply-exposure">How did you hear about MadHacks?</label>
+			<textarea multiline="true" id="apply-exposure" style="min-height:155px;margin-bottom:20px;">asdfasdf</textarea>
+			<input type="text" id="apply-exposure-shadow" style="display:none;" name="exposure" placeholder="How did you hear about Madhacks?">
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<div class="form-group">
+				<select class="form-control" id="apply-swag-gender" name="swag-gender" placeholder="swag-gender">
+					<option value="male">Male</option>
+					<option value="female">Male</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select class="form-control" id="apply-swag-size" name="swag-size" placeholder="swag-size">
+					<option value="xsmall">xs</option>
+					<option value="small">s</option>
+					<option value="medium">m</option>
+					<option value="large">l</option>
+					<option value="xlarge">xl</option>
+					<option value="xxlarge">xxl</option>
+					<option value="xxxlarge">xxxl</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<div class="col-xs-6 col-sm-6 form-split-left">
+				<div class="checkbox">
+					<label for="apply-plan-hardware">Hardware?</label>
+					<input type="checkbox" id="apply-plan-hardware" name="plan_hardware" placeholder="hardware">
+				</div>
+				<div class="checkbox">
+					<label for="apply-plan-mentor">Be a mentor?</label>
+					<input type="checkbox" id="apply-plan-mentor" name="plan_mentor" placeholder="mentor">
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 form-split-right">
+				<div class="checkbox">
+					<label for="apply-plan-hardware">Be a mentee?</label>
+					<input type="checkbox" id="apply-plan-mentee" name="plan_mentee" placeholder="mentee">
+				</div>
+				<div class="checkbox">
+					<label for="apply-need-partener">Need Partener?</label>
+					<input type="checkbox" id="apply-need-partener" name="need_partner" placeholder="partner">
+				</div>
+			</div>
+		</div>
+	</form>
+
+<% include part_foot %>
+
+61min

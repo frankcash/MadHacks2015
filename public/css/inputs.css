@@ -1,0 +1,96 @@
+input, label{
+	-webkit-transform: skew(20deg);
+	-moz-transform: skew(20deg);
+	-ms-transform: skew(20deg);
+	-o-transform: skew(20deg);
+	transform: skew(20deg);
+
+	font-size: 2em;
+
+}
+/*Checkboxes*/
+input[type="checkbox"], input[type="radio"] {
+	display:none;
+}
+input[type="checkbox"] + label > div, input[type="radio"] + label > div{
+	display:inline-block;
+		width:0.7em;
+		height:0.7em;
+		margin-left: 4px;
+		vertical-align:middle;
+		background:transparent;
+		border:solid purple 1px;
+		padding: 1px;
+		cursor:pointer;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline-style:none;/*IE*/
+}
+input[type="checkbox"] + label > div > div, input[type="radio"] + label > div > div{
+	height: 100%;
+	width: 100%;
+	background: transparent;
+}
+input[type="checkbox"]:checked + label > div > div, input[type="radio"]:checked + label > div > div{
+	background: purple;
+}
+
+
+/*radio*/
+input[type="radio"] + label > div{
+	border-radius: 50%;
+}
+input[type="radio"] + label > div > div{
+	border-radius: 50%;
+}
+
+input[type="text"]{
+	display: block;
+	width: 100%;
+	border: 0;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	border-radius: 0;
+	outline: none;
+}
+
+input[type="text"], input[type="password"] {
+	background: transparent;
+	position: relative;
+	border: none;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 8px 8px 6px;
+	background: bottom left -moz-linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center -moz-linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right -moz-linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+	background: bottom left -webkit-linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center -webkit-linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right -webkit-linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+	background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+	-moz-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-o-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-webkit-background-size: 1px 6px, 1px 1px, 1px 6px;
+	background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+input[type="text"][disabled], input[type="text"].disabled, input[type="password"][disabled], input[type="password"].disabled {
+	color: #a9a9a9;
+	background: bottom left -moz-linear-gradient(#cecece, #cecece) no-repeat, bottom center -moz-linear-gradient(#cecece, #cecece) repeat-x, bottom right -moz-linear-gradient(#cecece, #cecece) no-repeat;
+	background: bottom left -webkit-linear-gradient(#cecece, #cecece) no-repeat, bottom center -webkit-linear-gradient(#cecece, #cecece) repeat-x, bottom right -webkit-linear-gradient(#cecece, #cecece) no-repeat;
+	background: bottom left linear-gradient(#cecece, #cecece) no-repeat, bottom center linear-gradient(#cecece, #cecece) repeat-x, bottom right linear-gradient(#cecece, #cecece) no-repeat;
+	-moz-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-o-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-webkit-background-size: 1px 6px, 1px 1px, 1px 6px;
+	background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+	background: bottom left -moz-linear-gradient(#800080, #800080) no-repeat, bottom center -moz-linear-gradient(#800080, #800080) repeat-x, bottom right -moz-linear-gradient(#800080, #800080) no-repeat;
+	background: bottom left -webkit-linear-gradient(#800080, #800080) no-repeat, bottom center -webkit-linear-gradient(#800080, #800080) repeat-x, bottom right -webkit-linear-gradient(#800080, #800080) no-repeat;
+	background: bottom left linear-gradient(#800080, #800080) no-repeat, bottom center linear-gradient(#800080, #800080) repeat-x, bottom right linear-gradient(#800080, #800080) no-repeat;
+	-moz-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-o-background-size: 1px 6px, 1px 1px, 1px 6px;
+	-webkit-background-size: 1px 6px, 1px 1px, 1px 6px;
+	background-size: 1px 6px, 1px 1px, 1px 6px;
+}
