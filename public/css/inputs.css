@@ -17,6 +17,9 @@ select{
 	color: white;
    -webkit-appearance: none;
 }
+select.error{
+	border: #800000 1px solid;
+}
 option{
 	background: black;
 	border: purple 1px solid;
@@ -101,6 +104,18 @@ textarea {
 	background-size: 2px 6px, 2px 2px, 2px 6px;
 }
 
+input[type="text"].error,
+input[type="password"].error,
+textarea.error {
+	background: bottom left -moz-linear-gradient(#800000, #800000) no-repeat, bottom center -moz-linear-gradient(#800000, #800000) repeat-x, bottom right -moz-linear-gradient(#800000, #800000) no-repeat;
+	background: bottom left -webkit-linear-gradient(#800000, #800000) no-repeat, bottom center -webkit-linear-gradient(#800000, #800000) repeat-x, bottom right -webkit-linear-gradient(#800000, #800000) no-repeat;
+	background: bottom left linear-gradient(#800000, #800000) no-repeat, bottom center linear-gradient(#800000, #800000) repeat-x, bottom right linear-gradient(#800000, #800000) no-repeat;
+	-moz-background-size: 2px 6px, 2px 2px, 2px 6px;
+	-o-background-size: 2px 6px, 2px 2px, 2px 6px;
+	-webkit-background-size: 2px 6px, 2px 2px, 2px 6px;
+	background-size: 2px 6px, 2px 2px, 2px 6px;
+}
+
 input[type="text"][disabled], 
 input[type="text"].disabled, 
 input[type="password"][disabled],
@@ -139,12 +154,21 @@ button{
 
 	font-size: 1em;
 }
+button.error{
+	border: solid 2px #800000;
+	color: #800000;
+}
 button > div{
 	padding: .5em;
 }
 button:hover > div,
 button.done > div{
 	background: purple;
+	color: black;
+}
+button.error:hover > div,
+button.error.done > div{
+	background: #800000;
 	color: black;
 }
 hr{

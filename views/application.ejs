@@ -15,7 +15,10 @@
 			[3,2,1,0,1,2],
 			[4,3,2,1,0,1],
 			[5,4,3,2,1,0]
-		]
+		];
+		var validate = {
+
+		}
 		var order = function(){
 			$.each(shades, function(index, obj){				
 				var left, zindex, opacity;
@@ -35,30 +38,34 @@
 		$(document).ready(function(){
 			shades = $(".inner");
 			order();
-			$(".right").click(function(){
+			var moveRight = function(){
 				showing = (showing+1) % shades.length;
 				order();
-			});
+			};
 			$(".left").click(function(){
 				showing = (showing-1) % shades.length;
 				order();
 			});
-			$("input[name='travel']:radio").change(function () {
-				console.log("hello leo")
-				$("#venmo").slideToggle();
-			});
-			$("#apply-attend-school").change(function (){
+			$("#school-attend-school").change(function (){
 				$("#school-selector").slideToggle();
+				$("#school-school").removeClass("error");
 			});
-			$("#apply-plan-hardware").change(function (){
+			$("input[name='travel']:radio").change(function () {
+				$("#venmo").slideToggle();
+				$("#school-venmo").removeClass("error");
+			});
+			$("#hacker-plan-hardware").change(function (){
 				$("#plan-hardware-on").slideToggle();
+				$("#hacker-plan-hardware-on").removeClass("error");
 			});
-			$("#apply-need-partner, #apply-plan-mentor").change(function (){
-				if( $("#apply-need-partner").prop('checked')
-				|| $("#apply-plan-mentor").prop('checked') )
+			$("#hacker-need-partner, #hacker-plan-mentor").change(function (){
+				if( $("#hacker-need-partner").prop('checked')
+				 || $("#hacker-plan-mentor").prop('checked') )
 					$("#partner").slideDown();
-				else
+				else{
 					$("#partner").slideUp();
+					$("#hacker-need-partner-skills").removeClass("error");
+				}
 			});
 			$("#resume-button").click(function (){
 				console.log("click")
@@ -68,6 +75,86 @@
 				$("#resume-button").find("div").text(e.target.files[0].name);
 				$("#resume-button").addClass("done");
 			});
+			var validateLength = function ($input){
+				if($input.val().length <= 0)
+					$input.addClass("error");
+			}
+			var validateSelect = function ($input){
+				if($input.val() == null)
+					$input.addClass("error");
+			}
+			$("#validate-general").click(function(){
+				$this = $(this).closest("ul");
+				validateLength($this.find("#general-first-name"));
+				validateLength($this.find("#general-last-name"));
+				validateLength($this.find("#general-email"));
+				validateLength($this.find("#general-password"));
+				validateSelect($this.find("#general-swag-size"));
+				
+				if($this.find(".error").length <= 0)
+					moveRight();
+			});
+			$("#validate-school").click(function(){
+				$this = $(this).closest("ul");
+				if($this.find("#school-attend-school").prop("checked")){
+					validateSelect($this.find("#school-school"));
+				}
+				validateLength($this.find("#school-city"));
+				validateLength($this.find("#school-zip"));
+				validateSelect($this.find("#school-state"));
+				validateSelect($this.find("#school-country"));
+				if($this.find("#school-travel-yes").prop("checked")){
+					validateLength($this.find("#school-venmo"));
+				}
+				
+				if($this.find(".error").length <= 0)
+					moveRight();
+			});
+			$("#validate-diet").click(function(){
+				moveRight();
+			});
+			$("#validate-resume").click(function(){
+				$this = $(this).closest("ul");
+				var resume = $this.find("#resume-button-shadow");
+				if(resume.val().length <= 0){
+					resume.addClass("error");
+					$("#resume-button").addClass("error");
+				}
+				if($this.find(".error").length <= 0)
+					moveRight();
+			});
+			
+			$("form").on("change", ".error", function (){
+				console.log("focus")
+				$(this).removeClass("error");
+				if($(this).attr("type") == "file")
+					$("#resume-button").removeClass("error");
+			});
+			$("textarea").change(function (){
+				var id = $(this).attr("id");
+				var text = $(this).val();
+				console.log("change", id, text);
+				$("#"+id+"-shadow").val(text);
+			});
+			$("#application").submit(function (e){
+				e.preventDefault();
+				$.ajax({
+					url:"/users/apply",
+					type:"POST",
+					data:$(this).serialize(),
+					dataType:"json",
+					success:function (result){
+						console.log(result)
+					},
+					error: function(error){
+						console.log(error)
+					},
+					complete: function(a){
+						console.log("complete", a)
+					}
+				})
+			});
+
 		});
 	</script>
 </head>
@@ -76,16 +163,16 @@
 	<div id="general" class="inner">
 		<ul>
 			<li class="split">
-				<input type="text" id="apply-last-name" name="firstname" placeholder="First Name">
-				<input type="text" id="apply-first-name" name="lastname" placeholder="Last Name">
+				<input type="text" id="general-last-name" name="firstname" placeholder="First Name">
+				<input type="text" id="general-first-name" name="lastname" placeholder="Last Name">
 			</li>
 			<li class="split">
-				<input type="text" id="apply-email" name="email" placeholder="Email">
-				<input type="password" id="apply-password" name="password" placeholder="Password">
+				<input type="text" id="general-email" name="email" placeholder="Email">
+				<input type="password" id="general-password" name="password" placeholder="Password">
 			</li>
 			<li>
-				<select id="apply-swag-size" name="swag-size">
-					<option selected disabled hidden value=''>Swag Size</option>
+				<select id="general-swag-size" name="swag_size">
+					<option selected disabled hidden value='#'>Swag Size</option>
 					<option value="xs">xSmall</option>
 					<option value="s">Small</option>
 					<option value="m">Medium</option>
@@ -100,15 +187,15 @@
 			</li>
 			<li class="split">
 				<d>&nbsp;</d>
-				<button class="right" type="button"><div>Next</div></button>
+				<button id="validate-general" class="right" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
 	<div id="school" class="inner">
 		<ul>
 			<li>
-				<input type="checkbox" id="apply-attend-school" name="attend_school" checked>
-				<label for="apply-attend-school">Do you attend a university?<div><div></div></div></label>
+				<input type="checkbox" id="school-attend-school" name="attend_school" checked>
+				<label for="school-attend-school">Do you attend a university?<div><div></div></div></label>
 			</li>
 			<li id="school-selector">
 				<%include part_school_select %>
@@ -118,32 +205,32 @@
 				<%include part_country_select %>
 			</li>
 			<li class="split">
-				<input type="text" id="apply-city" name="city" placeholder="City">
-				<input type="text" id="apply-zip" name="zip" placeholder="Zip">
+				<input type="text" id="school-city" name="city" placeholder="City">
+				<input type="text" id="school-zip" name="zip" placeholder="Zip">
 			</li>
 			<li class="split">
 				<span>Travel Reimbursment: </span>
 				<div>
-					<input type="radio" id="apply-travel-no" name="travel" value="false" autocomplete="off" checked>
-					<label for="apply-travel-no">No:<div><div></div></div></label>
-					<input type="radio" id="apply-travel-yes" name="travel" value="true" autocomplete="off">
-					<label for="apply-travel-yes">Yes:<div><div></div></div></label>
+					<input type="radio" id="school-travel-no" name="travel" value="false" autocomplete="off" checked>
+					<label for="school-travel-no">No:<div><div></div></div></label>
+					<input type="radio" id="school-travel-yes" name="travel" value="true" autocomplete="off">
+					<label for="school-travel-yes">Yes:<div><div></div></div></label>
 				</div>
 			</li>
 			<li id="venmo" class="split" style="display:none;">
 				<span>venmo.com/</span>
-				<input type="text" id="apply-venmo" name="venmo" placeholder="Venmo ID">
+				<input type="text" id="school-venmo" name="venmo" placeholder="Venmo ID">
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
 				<button class="left" type="button"><div>Previous</div></button>
-				<button class="right" type="button"><div>Next</div></button>
+				<button id="validate-school" class="right" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
-	<div id="food_swag" class="inner">
+	<div id="diet" class="inner">
 		<ul>
 			<li>
 				<span>Dietary Restrictions</span>
@@ -190,7 +277,7 @@
 			</li>
 			<li class="split">
 				<button class="left" type="button"><div>Previous</div></button>
-				<button class="right" type="button"><div>Next</div></button>
+				<button id="validate-diet" class="right" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
@@ -220,49 +307,49 @@
 			</li>
 			<li class="split">
 				<button class="left" type="button"><div>Previous</div></button>
-				<button class="right" type="button"><div>Next</div></button>
+				<button id="validate-resume" class="right" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
 	<div id="hacker" class="inner">
 		<ul>
 			<li>
-				<label for="apply-exposure">How did you hear about MadHacks?</label>
-				<textarea multiline="true" id="apply-exposure"></textarea>
-				<input type="text" id="apply-exposure-shadow" style="display:none;" name="exposure" placeholder="How did you hear about Madhacks?">
+				<label for="hacker-exposure">How did you hear about MadHacks?</label>
+				<textarea multiline="true" id="hacker-exposure"></textarea>
+				<input type="text" id="hacker-exposure-shadow" style="display:none;" name="exposure" placeholder="How did you hear about Madhacks?">
 			</li>
 			<li>
-				<input type="checkbox" id="apply-plan-hardware" name="plan_hardware">
-				<label for="apply-plan-hardware">Do you plan to hack on hardware?<div><div></div></div></label>
+				<input type="checkbox" id="hacker-plan-hardware" name="plan_hardware">
+				<label for="hacker-plan-hardware">Do you plan to hack on hardware?<div><div></div></div></label>
 			</li>
 			<li id="plan-hardware-on" style="display:none;">
-				<label for="apply-exposure">What Hardware do you want to hack on?</label>
-				<textarea multiline="true" id="apply-plan-hardware-on"></textarea>
-				<input type="text" name="plan-hardware-on" id="apply-plan-hardware-on-shadow" style="display:none;">
+				<label for="hacker-exposure">What Hardware do you want to hack on?</label>
+				<textarea multiline="true" id="hacker-plan-hardware-on"></textarea>
+				<input type="text" name="plan_hardware_on" id="hacker-plan-hardware-on-shadow" style="display:none;">
 			</li>
 			<li>
-				<input type="checkbox" id="apply-plan-mentee" name="plan_mentee">
-				<label for="apply-plan-mentee">Do you want to be a mentee?<div><div></div></div></label>
+				<input type="checkbox" id="hacker-plan-mentee" name="plan_mentee">
+				<label for="hacker-plan-mentee">Do you want to be a mentee?<div><div></div></div></label>
 			</li>
 			<li>
-				<input type="checkbox" id="apply-plan-mentor" name="plan_mentor">
-				<label for="apply-plan-mentor">Do you want to be a mentor?<div><div></div></div></label>
+				<input type="checkbox" id="hacker-plan-mentor" name="plan_mentor">
+				<label for="hacker-plan-mentor">Do you want to be a mentor?<div><div></div></div></label>
 			</li>
 			<li>
-				<input type="checkbox" id="apply-need-partner" name="need_partner">
-				<label for="apply-need-partner">Are you looking for partners?<div><div></div></div></label>
+				<input type="checkbox" id="hacker-need-partner" name="need_partner">
+				<label for="hacker-need-partner">Are you looking for partners?<div><div></div></div></label>
 			</li>
 			<li id="partner" style="display:none;">
-				<label for="apply-exposure">What are some of your areas of knowledge?</label>
-				<textarea multiline="true" id="apply-need-partner-skills"></textarea>
-				<input type="text" name="plan-need-partner-skills" id="apply-need-partner-skills-shadow" style="display:none;">
+				<label for="hacker-exposure">What are some of your areas of knowledge?</label>
+				<textarea multiline="true" id="hacker-need-partner-skills"></textarea>
+				<input type="text" name="plan_need_partner_skills" id="hacker-need-partner-skills-shadow" style="display:none;">
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
 				<button class="left" type="button"><div>Previous</div></button>
-				<button class="right" type="button"><div>Submit</div></button>
+				<button class="right" type="submit"><div>Submit</div></button>
 			</li>
 		</ul>
 	</div>

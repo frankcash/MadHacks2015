@@ -72,4 +72,8 @@ router.get('/unsubscribe', function(req, res){
 	db.run("DELETE FROM subscriptions WHERE rowid='"+id+"';");
 	res.render("unsubscribe", {title:"Unsubscribed"});
 });
+
+router.post('/apply', function(req, res){
+	console.log(req.body)
+});
 module.exports = router;
