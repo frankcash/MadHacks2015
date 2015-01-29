@@ -9,10 +9,12 @@
 		var showing = 0;
 		var shades;
 		var orderArr = [
-			[0,1,2,3],
-			[1,0,1,2],
-			[2,1,0,1],
-			[3,2,1,0]
+			[0,1,2,3,4,5],
+			[1,0,1,2,3,4],
+			[2,1,0,1,2,3],
+			[3,2,1,0,1,2],
+			[4,3,2,1,0,1],
+			[5,4,3,2,1,0]
 		]
 		var order = function(){
 			$.each(shades, function(index, obj){				
@@ -24,7 +26,7 @@
 
 				zindex = orderArr[showing][index];
 
-				opacity = zindex/10;
+				opacity = zindex/5;
 				opacity = 1 - opacity;
 
 				$(obj).css({"left":left, "z-index":1000-zindex, "opacity":opacity });
@@ -40,6 +42,23 @@
 			$(".left").click(function(){
 				showing = (showing-1) % shades.length;
 				order();
+			});
+			$("input[name='travel']:radio").change(function () {
+				console.log("hello leo")
+				$("#venmo").slideToggle();
+			});
+			$("#apply-attend-school").change(function (){
+				$("#school-selector").slideToggle();
+			});
+			$("#apply-plan-hardware").change(function (){
+				$("#plan-hardware-on").slideToggle();
+			});
+			$("#apply-need-partner, #apply-plan-mentor").change(function (){
+				if( $("#apply-need-partner").prop('checked')
+				|| $("#apply-plan-mentor").prop('checked') )
+					$("#partner").slideDown();
+				else
+					$("#partner").slideUp();
 			});
 		});
 	</script>
@@ -57,6 +76,18 @@
 				<input type="text" id="apply-email" name="email" placeholder="Email">
 				<input type="password" id="apply-password" name="password" placeholder="Password">
 			</li>
+			<li>
+				<select id="apply-swag-size" name="swag-size">
+					<option selected disabled hidden value=''>Swag Size</option>
+					<option value="xsmall">xs</option>
+					<option value="small">s</option>
+					<option value="medium">m</option>
+					<option value="large">l</option>
+					<option value="xlarge">xl</option>
+					<option value="xxlarge">xxl</option>
+					<option value="xxxlarge">xxxl</option>
+				</select>
+			</li>
 		</ul>
 	</div>
 	<div id="school" class="inner">
@@ -67,7 +98,7 @@
 				<input type="checkbox" id="apply-attend-school" name="attend_school" checked>
 				<label for="apply-attend-school">Do you attend a university?<div><div></div></div></label>
 			</li>
-			<li>
+			<li id="school-selector">
 				<%include part_school_select %>
 			</li>
 			<li class="split">
@@ -78,12 +109,18 @@
 				<%include part_country_select %>
 				<input type="text" id="apply-zip" name="zip" placeholder="Zip">
 			</li>
-			<li>
+			<li class="split">
 				<span>Travel Reimbursment: </span>
-				<input type="radio" id="apply-travel-no" name="travel" value="false" autocomplete="off" checked>
-				<label for="apply-travel-no">No:<div><div></div></div></label>
-				<input type="radio" id="apply-travel-yes" name="travel" value="true" autocomplete="off">
-				<label for="apply-travel-yes">Yes:<div><div></div></div></label>
+				<div>
+					<input type="radio" id="apply-travel-no" name="travel" value="false" autocomplete="off" checked>
+					<label for="apply-travel-no">No:<div><div></div></div></label>
+					<input type="radio" id="apply-travel-yes" name="travel" value="true" autocomplete="off">
+					<label for="apply-travel-yes">Yes:<div><div></div></div></label>
+				</div>
+			</li>
+			<li id="venmo" class="split" style="display:none;">
+				<span>https://venmo.com/</span>
+				<input type="text" id="apply-venmo" name="venmo" placeholder="Venmo ID">
 			</li>
 		</ul>
 	</div>
@@ -92,32 +129,47 @@
 		<button class="right" type="button">right</button>
 		<ul>
 			<li>
-				<input type="checkbox" id="apply-food-vegetarian" name="food_vegetarian">
-				<label for="apply-food-vegetarian">Vegetarian<div><div></div></div></label>
+				<span>Dietary Restrictions</span>
 			</li>
-			<li>
-				<input type="checkbox" id="apply-food-vegan" name="food_vegan">
-				<label for="apply-food-vegan">Vegan<div><div></div></div></label>
+			<li class="split">
+				<div>
+					<input type="checkbox" id="apply-food-vegetarian" name="food_vegetarian">
+					<label for="apply-food-vegetarian">Vegetarian&nbsp;<div><div></div></div></label>
+				</div>
+				<div>
+					<input type="checkbox" id="apply-food-vegan" name="food_vegan">
+					<label for="apply-food-vegan"><div><div></div></div>&nbsp;Vegan</label>
+				</div>
 			</li>
-			<li>
-				<input type="checkbox" id="apply-food-vegan" name="food_vegan">
-				<label for="apply-food-vegan">Vegan<div><div></div></div></label>	
+			<li class="split">
+				<div>
+					<input type="checkbox" id="apply-food-vegan" name="food_vegan">
+					<label for="apply-food-vegan">Vegan&nbsp;<div><div></div></div></label>	
+				</div>
+				<div>
+					<input type="checkbox" id="apply-food-glutenfree" name="food_glutenfree">
+					<label for="apply-food-glutenfree"><div><div></div></div>&nbsp;Gluten Free</label>	
+				</div>
 			</li>
-			<li>
-				<input type="checkbox" id="apply-food-glutenfree" name="food_glutenfree">
-				<label for="apply-food-glutenfree">Gluten Free<div><div></div></div></label>	
+			<li class="split">
+				<div>
+					<input type="checkbox" id="apply-food-dairyfree" name="food_dairyfree">
+					<label for="apply-food-dairyfree">Dairy Free&nbsp;<div><div></div></div></label>
+				</div>
+				<div>
+					<input type="checkbox" id="apply-food-kosher" name="food_kosher">
+					<label for="apply-food-kosher"><div><div></div></div>&nbsp;Kosher</label>
+				</div>
 			</li>
-			<li>
-				<input type="checkbox" id="apply-food-dairyfree" name="food_dairyfree">
-				<label for="apply-food-dairyfree">Dairy Free<div><div></div></div></label>
-			</li>
-			<li>
-				<input type="checkbox" id="apply-food-kosher" name="food_kosher">
-				<label for="apply-food-kosher">Kosher<div><div></div></div></label>
-			</li>
-			<li>
-				<input type="checkbox" id="apply-food-halal" name="food_halal">
-				<label for="apply-food-halal">Halal<div><div></div></div></label>
+			<li class="split">
+				<div>
+					<input type="checkbox" id="apply-food-halal" name="food_halal">
+					<label for="apply-food-halal">Halal&nbsp;<div><div></div></div></label>
+				</div>
+				<div>
+					<input type="checkbox" id="apply-food-pescetarian" name="food_pescetarian">
+					<label for="apply-food-pescetarian"><div><div></div></div>&nbsp;Pescetarian</label>
+				</div>
 			</li>
 			<li>
 				<input type="text" id="apply-food-other" name="food_other" placeholder="Other">
@@ -126,54 +178,62 @@
 	</div>
 	<div id="resume" class="inner">
 		<button class="left" type="button">Left</button>
+		<button class="right" type="button">right</button>
 		<ul>
-			<li>
+			<li class="split">
+				<span>https://github.com/</span>
 				<input type="text" id="apply-Github" name="Github" placeholder="Github">
 			</li>
-			<li>
+			<li class="split">
+				<span>https://www.linkedin.com/in/</span>
 				<input type="text" id="apply-linkedIn" name="linkedIn" placeholder="linkedIn">
 			</li>
-			<li>
+			<li class="split">
+				<span>https://dribbble.com/</span>
 				<input type="text" id="apply-Dribble" name="Dribble" placeholder="Dribble">
 			</li>
-			<li>
+			<li class="split">
+				<span>Resume</span>
 				<input type="file" id="apply-resume" name="resume" placeholder="resume">
 			</li>
+			
+
+			
+		</ul>
+	</div>
+	<div id="hacker" class="inner">
+		<button class="left" type="button">Left</button>
+		<ul>
 			<li>
 				<label for="apply-exposure">How did you hear about MadHacks?</label>
-				<textarea multiline="true" id="apply-exposure" style="min-height:155px;margin-bottom:20px;">asdfasdf</textarea>
+				<textarea multiline="true" id="apply-exposure">asdfasdf</textarea>
 				<input type="text" id="apply-exposure-shadow" style="display:none;" name="exposure" placeholder="How did you hear about Madhacks?">
-			</li>
-			<li class="split">
-				<select id="apply-swag-gender" name="swag-gender">
-					<option value="male">Male</option>
-					<option value="female">Female</option>
-				</select>
-				<select id="apply-swag-size" name="swag-size">
-					<option value="xsmall">xs</option>
-					<option value="small">s</option>
-					<option value="medium">m</option>
-					<option value="large">l</option>
-					<option value="xlarge">xl</option>
-					<option value="xxlarge">xxl</option>
-					<option value="xxxlarge">xxxl</option>
-				</select>
 			</li>
 			<li>
 				<input type="checkbox" id="apply-plan-hardware" name="plan_hardware">
-				<label for="apply-plan-hardware">Hardware?<div><div></div></div></label>
+				<label for="apply-plan-hardware">Do you plan to hack on hardware?<div><div></div></div></label>
 			</li>
-			<li>
-				<input type="checkbox" id="apply-plan-mentor" name="plan_mentor">
-				<label for="apply-plan-mentor">Be a mentor?<div><div></div></div></label>
+			<li id="plan-hardware-on" style="display:none;">
+				<label for="apply-exposure">What Hardware do you want to hack on?</label>
+				<textarea multiline="true" id="apply-plan-hardware-on">asdfasdf</textarea>
+				<input type="text" name="plan-hardware-on" id="apply-plan-hardware-on-shadow" style="display:none;">
 			</li>
 			<li>
 				<input type="checkbox" id="apply-plan-mentee" name="plan_mentee">
-				<label for="apply-plan-hardware">Be a mentee?<div><div></div></div></label>
+				<label for="apply-plan-mentee">Do you want to be a mentee?<div><div></div></div></label>
 			</li>
 			<li>
-				<input type="checkbox" id="apply-need-partener" name="need_partner">
-				<label for="apply-need-partener">Need Partener?<div><div></div></div></label>
+				<input type="checkbox" id="apply-plan-mentor" name="plan_mentor">
+				<label for="apply-plan-mentor">Do you want to be a mentor?<div><div></div></div></label>
+			</li>
+			<li>
+				<input type="checkbox" id="apply-need-partner" name="need_partner">
+				<label for="apply-need-partner">Are you looking for partners?<div><div></div></div></label>
+			</li>
+			<li id="partner" style="display:none;">
+				<label for="apply-exposure">What are some of your areas of knowledge?</label>
+				<textarea multiline="true" id="apply-need-partner-skills">asdfasdf</textarea>
+				<input type="text" name="plan-need-partner-skills" id="apply-need-partner-skills-shadow" style="display:none;">
 			</li>
 		</ul>
 	</div>

@@ -42,13 +42,22 @@ ul{
 }
 li{
 	list-style-type: none;
+	width: 100%;
 }
 li > *{
 	width: 100%;
 }
 li.split > *{
 	width: 48%;
-	display: inline;
+	display: inline-block;
+}
+li.split > *:first-child{
+	text-align: right;
+	margin-right: 1.5%;
+}
+li.split > *:last-child{
+	text-align: left;
+	margin-left: 1.5%;
 }
 body{
 	background: url('/img/apply_back.png');
