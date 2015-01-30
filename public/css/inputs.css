@@ -99,10 +99,10 @@ textarea {
 	background: bottom left -moz-linear-gradient(#800080, #800080) no-repeat, bottom center -moz-linear-gradient(#800080, #800080) repeat-x, bottom right -moz-linear-gradient(#800080, #800080) no-repeat;
 	background: bottom left -webkit-linear-gradient(#800080, #800080) no-repeat, bottom center -webkit-linear-gradient(#800080, #800080) repeat-x, bottom right -webkit-linear-gradient(#800080, #800080) no-repeat;
 	background: bottom left linear-gradient(#800080, #800080) no-repeat, bottom center linear-gradient(#800080, #800080) repeat-x, bottom right linear-gradient(#800080, #800080) no-repeat;
-	-moz-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-o-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-webkit-background-size: 2px 6px, 2px 2px, 2px 6px;
-	background-size: 2px 6px, 2px 2px, 2px 6px;
+	-moz-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-o-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-webkit-background-size: 2px 12px, 2px 3px, 2px 12px;
+	background-size: 2px 12px, 2px 3px, 2px 12px;
 }
 
 input[type="text"].error,
@@ -111,10 +111,10 @@ textarea.error {
 	background: bottom left -moz-linear-gradient(#800000, #800000) no-repeat, bottom center -moz-linear-gradient(#800000, #800000) repeat-x, bottom right -moz-linear-gradient(#800000, #800000) no-repeat;
 	background: bottom left -webkit-linear-gradient(#800000, #800000) no-repeat, bottom center -webkit-linear-gradient(#800000, #800000) repeat-x, bottom right -webkit-linear-gradient(#800000, #800000) no-repeat;
 	background: bottom left linear-gradient(#800000, #800000) no-repeat, bottom center linear-gradient(#800000, #800000) repeat-x, bottom right linear-gradient(#800000, #800000) no-repeat;
-	-moz-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-o-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-webkit-background-size: 2px 6px, 2px 2px, 2px 6px;
-	background-size: 2px 6px, 2px 2px, 2px 6px;
+	-moz-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-o-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-webkit-background-size: 2px 12px, 2px 3px, 2px 12px;
+	background-size: 2px 12px, 2px 3px, 2px 12px;
 }
 
 input[type="text"][disabled], 
@@ -127,10 +127,10 @@ textarea.disabled {
 	background: bottom left -moz-linear-gradient(#cecece, #cecece) no-repeat, bottom center -moz-linear-gradient(#cecece, #cecece) repeat-x, bottom right -moz-linear-gradient(#cecece, #cecece) no-repeat;
 	background: bottom left -webkit-linear-gradient(#cecece, #cecece) no-repeat, bottom center -webkit-linear-gradient(#cecece, #cecece) repeat-x, bottom right -webkit-linear-gradient(#cecece, #cecece) no-repeat;
 	background: bottom left linear-gradient(#cecece, #cecece) no-repeat, bottom center linear-gradient(#cecece, #cecece) repeat-x, bottom right linear-gradient(#cecece, #cecece) no-repeat;
-	-moz-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-o-background-size: 2px 6px, 2px 2px, 2px 6px;
-	-webkit-background-size: 2px 6px, 2px 2px, 2px 6px;
-	background-size: 2px 6px, 2px 2px, 2px 6px;
+	-moz-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-o-background-size: 2px 12px, 2px 3px, 2px 12px;
+	-webkit-background-size: 2px 12px, 2px 3px, 2px 12px;
+	background-size: 2px 12px, 2px 3px, 2px 12px;
 }
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -138,12 +138,13 @@ textarea:focus{
 	background: bottom left -moz-linear-gradient(#800080, #800080) no-repeat, bottom center -moz-linear-gradient(#000, #800080) repeat-x, bottom right -moz-linear-gradient(#800080, #800080) no-repeat;
 	background: bottom left -webkit-linear-gradient(#800080, #800080) no-repeat, bottom center -webkit-linear-gradient(#000, #800080) repeat-x, bottom right -webkit-linear-gradient(#800080, #800080) no-repeat;
 	background: bottom left linear-gradient(#800080, #800080) no-repeat, bottom center linear-gradient(#000, #800080) repeat-x, bottom right linear-gradient(#800080, #800080) no-repeat;
-	-moz-background-size: 2px 6px, 2px 22px, 2px 6px;
-	-o-background-size: 2px 6px, 2px 22px, 2px 6px;
-	-webkit-background-size: 2px 6px, 2px 22px, 2px 6px;
-	background-size: 2px 6px, 2px 22px, 2px 6px;
+	-moz-background-size: 2px 12px, 2px 22px, 2px 12px;
+	-o-background-size: 2px 12px, 2px 22px, 2px 12px;
+	-webkit-background-size: 2px 12px, 2px 22px, 2px 12px;
+	background-size: 2px 12px, 2px 22px, 2px 12px;
 }
-button{
+.btn{
+	text-decoration: none;
 	background:black;
 	color: purple;
 	padding: 1px;
@@ -155,20 +156,21 @@ button{
 
 	font-size: 1em;
 }
-button.error{
+.btn.error{
 	border: solid 2px #800000;
 	color: #800000;
 }
-button > div{
+.btn > div,
+.btn > div{
 	padding: .5em;
 }
-button:hover > div,
-button.done > div{
+.btn:hover > div,
+.btn.done > div{
 	background: purple;
 	color: black;
 }
-button.error:hover > div,
-button.error.done > div{
+.btn.error:hover > div,
+.btn.error.done > div{
 	background: #800000;
 	color: black;
 }

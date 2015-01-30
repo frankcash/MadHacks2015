@@ -73,6 +73,7 @@ router.get('/unsubscribe', function(req, res){
 	res.render("unsubscribe", {title:"Unsubscribed"});
 });
 
+
 router.post('/apply', function(req, res){
 	var body = {};
 	var once = false;
@@ -95,25 +96,82 @@ router.post('/apply', function(req, res){
 			body.resume = filename;
 			var fstream = fs.createWriteStream(__dirname + '/../resumes/' + filename);
 			fstream.on('close', function () {
-				if(req.busboy["_done"]);
+				if(req.busboy["_done"])
 					done();
 			});
 			file.pipe(fstream);
 		});
 		req.busboy.on('field', function(key, value) {
 			body[key] = value;
-			if(req.busboy["_done"]);
+			console.log(req.busboy["_done"]);
+			if(req.busboy["_done"])
 				done();
     	});
 		req.pipe(req.busboy);
 	}
 	else {
-		console.log("shit")
+		console.log("shit");
+		res.send(200, {success:false});
+	}
+});
+
+router.post('/update', function(req, res){
+	var body = {};
+	var once = false;
+	var done = function (){
+		if(once == false){
+			once = true;
+			global.sqler.updateApplication(req, body, function(err){
+				console.log("done");
+				console.log("error", err);
+				if(err)
+					res.send(400, {success:false, error:err.err});
+				else
+					res.send(200,{success:true});
+			});
+		}
+	}
+	if(req.busboy) {
+		req.busboy.on("file", function(fieldName, file, filename) {
+			filename = global.s4() + global.s4() + "." + filename.split(".")[filename.split(".").length - 1];
+			body.resume = filename;
+			var fstream = fs.createWriteStream(__dirname + '/../resumes/' + filename);
+			fstream.on('close', function () {
+				if(req.busboy["_done"])
+					done();
+			});
+			file.pipe(fstream);
+		});
+		req.busboy.on('field', function(key, value) {
+			body[key] = value;
+			console.log(req.busboy["_done"]);
+			if(req.busboy["_done"])
+				done();
+    	});
+		req.pipe(req.busboy);
+	}
+	else {
+		console.log("shit");
+		res.send(200, {success:false});
 	}
 });
 
 router.post('/anon', function(req, res){
 	global.sqler.insertAnon(req.body, function(){});
 	res.send(200, {success:true});
+});
+
+
+router.post('/login', function(req, res){
+	global.sqler.checkLogin(req.body, function(err, isMatch){
+		console.log("match:",isMatch)
+		if(err || !isMatch)
+			res.redirect("/login")
+			// res.render('page_login', {title:"login", email:body.email});
+		else{
+			res.cookie("user", req.body.email, {signed:true});
+			res.redirect("/apply");
+		}
+	});
 });
 module.exports = router;

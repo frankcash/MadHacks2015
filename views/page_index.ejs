@@ -1,0 +1,20 @@
+<% include part_head %>
+	<div class="inner" style="display:none;">
+		<div class="hackCity">MadHacks</div>
+		<ul>
+			<li>
+				<img style="width:50%;margin-left:25%;" src="/img/logo.png">
+			</li>
+			<li style="text-align:center;">
+				<span><span class="hack">#Hack</span><span class="city">City</span></span>
+			</li>
+			<li>
+				<hr class="withbottom">
+			</li>
+			<li class="split">
+				<a class="left btn" href="/apply"><div><%= logged=="true" ? "Edit Application" : 'Apply' %></div></a>
+				<a class="right btn" <%= logged=="true" ? 'href=/logout' : 'href=/login' %>><div><%= logged=="true" ? "Log Out" : 'Log In' %></div></a>
+			</li>
+		</ul>
+	</div>
+<% include part_foot %>

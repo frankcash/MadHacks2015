@@ -1,65 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>	
-	<meta name="viewport" content="width=device-width" />
-	<title>MadHacks: Sign up</title>
-	<link rel="stylesheet" type="text/css" href="/css/inputs.css">
-	<link rel="stylesheet" type="text/css" href="/css/application.css">
-	<script type="text/javascript" src="/js/jquery.js"></script>
-	<script type="text/javascript" src="/js/application.js"></script>
-	<!--[if gte IE 9]>
-		<style type="text/css">
-			#footerTable td:hover {
-			   filter: none;
-			}
-		</style>
-	<![endif]-->
-</head>
-</html>
-<form class="container" id="application" action="/user/apply" method="POST">
-	<div id="footerInner" class="inner" style="display:none;pointer-events:none;">
-		<div class="hackCity" style="height:0;pointer-events:none;" >General</div>
-		<ul style="pointer-events:none;">
-			<li>
-				<div class="bottom">
-					<div class="hackCity">MadHacks</div>			
-					<table id="footerTable">
-						<tr>
-							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/">Home</a></td>
-							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/about">About</a></td>
-							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/sponsor">Sponsor</a></td>
-							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/contact">Contact</a></td>
-						</tr>
-					</table>
-				</div>
-			</li>
-		</ul>
-	</div>
+<%include part_head %>
+<form class="container" id="application" action="/users/<%= update=="true" ? "update" : 'apply' %>" method="POST">
+	
 	<div id="general" class="inner" style="display:none;">
 		<div class="hackCity">General</div>
 		<ul>
 			<li class="split">
-				<input type="text" id="general-last-name" name="firstname" placeholder="First Name">
-				<input type="text" id="general-first-name" name="lastname" placeholder="Last Name">
+				<input type="text" id="general-last-name" name="firstname" placeholder="First Name" value="<%= firstname %>">
+				<input type="text" id="general-first-name" name="lastname" placeholder="Last Name" value="<%= lastname %>">
 			</li>
 			<li class="split">
-				<input type="text" id="general-email" name="email" placeholder="Email">
+				<input type="text" id="general-email" name="email" placeholder="Email" value="<%= email %>">
 				<input type="password" id="general-password" name="password" placeholder="Password">
 			</li>
 			<li>
 				<select id="general-swag-size" name="swag_size">
-					<option selected disabled hidden value='#'>Swag Size</option>
-					<option value="xs">xSmall</option>
-					<option value="s">Small</option>
-					<option value="m">Medium</option>
-					<option value="l">Large</option>
-					<option value="xl">xLarge</option>
-					<option value="xxl">xxLarge</option>
-					<option value="xxxl">xxxLarge</option>
+					<option <%= swag_size=="" ? "selected" : '' %> disabled hidden value='#'>Swag Size</option>
+					<option value="xs" <%= swag_size=="xs" ? "selected" : '' %>>xSmall</option>
+					<option value="s" <%= swag_size=="s" ? "selected" : '' %>>Small</option>
+					<option value="m" <%= swag_size=="m" ? "selected" : '' %>>Medium</option>
+					<option value="l" <%= swag_size=="l" ? "selected" : '' %>>Large</option>
+					<option value="xl" <%= swag_size=="xl" ? "selected" : '' %>>xLarge</option>
+					<option value="xxl" <%= swag_size=="xxl" ? "selected" : '' %>>xxLarge</option>
+					<option value="xxxl" <%= swag_size=="xxxl" ? "selected" : '' %>>xxxLarge</option>
 				</select>
 			</li>
 			<li style="margin-top:10px;">
-				<input type="checkbox" id="general-age" name="is_18">
+				<input type="checkbox" id="general-age" name="is_18" <%= is_18=="true" ? "checked" : '' %>>
 				<label for="general-age">Will you be 18 years of age by April 17th, 2015?&nbsp;<div><div></div></div></label>
 			</li>
 			<li>
@@ -67,7 +33,7 @@
 			</li>
 			<li class="split">
 				<div></div>
-				<button id="validate-general" class="right" type="button"><div>Next</div></button>
+				<button id="validate-general" class="right btn" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
@@ -75,39 +41,41 @@
 		<div class="hackCity">School</div>
 		<ul>
 			<li>
-				<input type="checkbox" id="school-attend-school" name="attend_school" checked>
+				<input type="checkbox" id="school-attend-school" name="attend_school" <%= attend_school=="true" ? "checked" : '' %>>
 				<label for="school-attend-school">Do you attend a university?<div><div></div></div></label>
 			</li>
-			<li id="school-selector">
-				<%include part_school_select %>
+			<li id="school-selector" <%= attend_school=="false" ? "style=display:none;" : '' %>>
+				<input type="text" id="school-school" name="school" placeholder="School" value="<%= school %>">
 			</li>
 			<li class="split">
 				<%include part_state_select %>
 				<%include part_country_select %>
 			</li>
 			<li class="split">
-				<input type="text" id="school-city" name="city" placeholder="City">
-				<input type="text" id="school-zip" name="zip" placeholder="Zip">
+				<input type="text" id="school-city" name="city" placeholder="City" value="<%= city %>">
+				<input type="text" id="school-zip" name="zip" placeholder="Zip" value="<%= zip %>">
 			</li>
-			<li class="split">
-				<span>Travel Reimbursment: </span>
+			<li>
+				<span>Travel Reimbursement: </span>
+			</li>
+			<li>
 				<div>
-					<input type="radio" id="school-travel-no" name="travel" value="false" autocomplete="off" checked>
+					<input type="radio" id="school-travel-no" name="travel" value="false" autocomplete="off" <%= travel=="false" ? "checked" : '' %>>
 					<label for="school-travel-no">No:<div><div></div></div></label>
-					<input type="radio" id="school-travel-yes" name="travel" value="true" autocomplete="off">
+					<input type="radio" id="school-travel-yes" name="travel" value="true" autocomplete="off" <%= travel=="true" ? "checked" : '' %>>
 					<label for="school-travel-yes">Yes:<div><div></div></div></label>
 				</div>
 			</li>
-			<li id="venmo" class="split" style="display:none;">
+			<li id="venmo" class="split" <%= travel=="false" ? 'style="display:none;"' : '' %>>
 				<span>venmo.com/</span>
-				<input type="text" id="school-venmo" name="venmo" placeholder="Venmo ID">
+				<input type="text" id="school-venmo" name="venmo" placeholder="Venmo ID" value="<%= venmo %>">
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
-				<button class="left" type="button"><div>Previous</div></button>
-				<button id="validate-school" class="right" type="button"><div>Next</div></button>
+				<button class="left btn" type="button"><div>Previous</div></button>
+				<button id="validate-school" class="right btn" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
@@ -118,48 +86,48 @@
 				<span>Dietary Restrictions</span>
 			</li>
 			<li class="split">
-				<div>
-					<input type="checkbox" id="apply-food-vegetarian" name="food_vegetarian">
+				<div class="label">
+					<input type="checkbox" id="apply-food-vegetarian" name="food_vegetarian" <%= food_vegetarian=="true" ? "checked" : '' %>>
 					<label for="apply-food-vegetarian">Vegetarian&nbsp;<div><div></div></div></label>
 				</div>
-				<div>
-					<input type="checkbox" id="apply-food-vegan" name="food_vegan">
+				<div class="label">
+					<input type="checkbox" id="apply-food-vegan" name="food_vegan" <%= food_vegan=="true" ? "checked" : '' %>>
 					<label for="apply-food-vegan"><div><div></div></div>&nbsp;Vegan</label>
 				</div>
 			</li>
 			<li class="split">
-				<div>
-					<input type="checkbox" id="apply-food-glutenfree" name="food_glutenfree">
+				<div class="label">
+					<input type="checkbox" id="apply-food-glutenfree" name="food_glutenfree" <%= food_glutenfree=="true" ? "checked" : '' %>>
 					<label for="apply-food-glutenfree">&nbsp;Gluten Free<div><div></div></div></label>	
 				</div>
-				<div>
-					<input type="checkbox" id="apply-food-pescetarian" name="food_pescetarian">
+				<div class="label">
+					<input type="checkbox" id="apply-food-pescetarian" name="food_pescetarian" <%= food_pescetarian=="true" ? "checked" : '' %>>
 					<label for="apply-food-pescetarian"><div><div></div></div>&nbsp;Pescetarian</label>
 				</div>
 			</li>
 			<li class="split">
-				<div>
-					<input type="checkbox" id="apply-food-dairyfree" name="food_dairyfree">
+				<div class="label">
+					<input type="checkbox" id="apply-food-dairyfree" name="food_dairyfree" <%= food_dairyfree=="true" ? "checked" : '' %>>
 					<label for="apply-food-dairyfree">Dairy Free&nbsp;<div><div></div></div></label>
 				</div>
-				<div>
-					<input type="checkbox" id="apply-food-kosher" name="food_kosher">
+				<div class="label">
+					<input type="checkbox" id="apply-food-kosher" name="food_kosher" <%= food_kosher=="true" ? "checked" : '' %>>
 					<label for="apply-food-kosher"><div><div></div></div>&nbsp;Kosher</label>
 				</div>
 			</li>
 			<li class="split">
-				<div>
-					<input type="checkbox" id="apply-food-halal" name="food_halal">
+				<div class="label">
+					<input type="checkbox" id="apply-food-halal" name="food_halal" <%= food_halal=="true" ? "checked" : '' %>>
 					<label for="apply-food-halal">Halal&nbsp;<div><div></div></div></label>
 				</div>
-				<input type="text" id="apply-food-other" style="padding-top:0;margin-top:0;" name="food_other" placeholder="Other">
+				<input type="text" id="apply-food-other" style="padding-top:0;margin-top:0;" name="food_other" placeholder="Other" value="<%= food_other %>"> 
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
-				<button class="left" type="button"><div>Previous</div></button>
-				<button id="validate-diet" class="right" type="button"><div>Next</div></button>
+				<button class="left btn" type="button"><div>Previous</div></button>
+				<button id="validate-diet" class="right btn" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
@@ -168,29 +136,29 @@
 		<ul>
 			<li class="split">
 				<span>github.com/</span>
-				<input type="text" id="apply-Github" name="Github" placeholder="Github">
+				<input type="text" id="apply-Github" name="Github" placeholder="Github" value="<%= Github %>">
 			</li>
 			<li class="split">
 				<span>linkedin.com/in/</span>
-				<input type="text" id="apply-linkedIn" name="linkedIn" placeholder="linkedIn">
+				<input type="text" id="apply-linkedIn" name="linkedIn" placeholder="linkedIn" value="<%= linkedIn %>">
 			</li>
 			<li class="split">
 				<span>dribbble.com/</span>
-				<input type="text" id="apply-Dribble" name="Dribble" placeholder="Dribble">
+				<input type="text" id="apply-Dribble" name="Dribble" placeholder="Dribble" value="<%= Dribble %>">
 			</li>
 			<li class="split">
 				<span>Resume</span>
-				<input style="display:none" id="resume-button-shadow" type="file" name="resume">
-				<button id="resume-button" type="button">
-					<div>Select Resume</div>
+				<input style="display:none" id="resume-button-shadow" type="file" name="resume" <%= resume!="Select Resume" ? "data-done='"+resume+"" : '' %>>
+				<button id="resume-button" type="button" class=" btn">
+					<div><%= resume %></div>
 				</button>
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
-				<button class="left" type="button"><div>Previous</div></button>
-				<button id="validate-resume" class="right" type="button"><div>Next</div></button>
+				<button class="left btn" type="button"><div>Previous</div></button>
+				<button id="validate-resume" class="right btn" type="button"><div>Next</div></button>
 			</li>
 		</ul>
 	</div>
@@ -199,41 +167,41 @@
 		<ul>
 			<li>
 				<label for="hacker-exposure">How did you hear about MadHacks?</label>
-				<textarea multiline="true" id="hacker-exposure"></textarea>
-				<input type="text" id="hacker-exposure-shadow" style="display:none;" name="exposure" placeholder="How did you hear about Madhacks?">
+				<textarea multiline="true" id="hacker-exposure" ><%= exposure %></textarea>
+				<input type="text" id="hacker-exposure-shadow" style="display:none;" name="exposure" value="<%= exposure %>">
 			</li>
 			<li>
-				<input type="checkbox" id="hacker-plan-hardware" name="plan_hardware">
+				<input type="checkbox" id="hacker-plan-hardware" name="plan_hardware" <%= plan_hardware=="true" ? "checked" : '' %>>
 				<label for="hacker-plan-hardware">Do you plan to hack on hardware?<div><div></div></div></label>
 			</li>
-			<li id="plan-hardware-on" style="display:none;">
+			<li id="plan-hardware-on" <%= plan_hardware=="false" ? 'style="display:none;"' : '' %>>
 				<label for="hacker-exposure">What Hardware do you want to hack on?</label>
-				<textarea multiline="true" id="hacker-plan-hardware-on"></textarea>
-				<input type="text" name="plan_hardware_on" id="hacker-plan-hardware-on-shadow" style="display:none;">
+				<textarea multiline="true" id="hacker-plan-hardware-on"><%= plan_hardware_on %></textarea>
+				<input type="text" name="plan_hardware_on" id="hacker-plan-hardware-on-shadow" style="display:none;" value="<%= plan_hardware_on %>">
 			</li>
 			<li>
-				<input type="checkbox" id="hacker-plan-mentee" name="plan_mentee">
+				<input type="checkbox" id="hacker-plan-mentee" name="plan_mentee" <%= plan_mentee=="true" ? "checked" : '' %>>
 				<label for="hacker-plan-mentee">Do you want to be a mentee?<div><div></div></div></label>
 			</li>
 			<li>
-				<input type="checkbox" id="hacker-plan-mentor" name="plan_mentor">
+				<input type="checkbox" id="hacker-plan-mentor" name="plan_mentor" <%= plan_mentor=="true" ? "checked" : '' %>>
 				<label for="hacker-plan-mentor">Do you want to be a mentor?<div><div></div></div></label>
 			</li>
 			<li>
-				<input type="checkbox" id="hacker-need-partner" name="need_partner">
+				<input type="checkbox" id="hacker-need-partner" name="need_partner" <%= need_partner=="true" ? "checked" : '' %>>
 				<label for="hacker-need-partner">Are you looking for partners?<div><div></div></div></label>
 			</li>
-			<li id="partner" style="display:none;">
+			<li id="partner" <%= (plan_mentor=="true" || need_partner=="true") ? '' : 'style="display:none;"' %>>
 				<label for="hacker-exposure">What are some of your areas of knowledge?</label>
-				<textarea multiline="true" id="hacker-need-partner-skills"></textarea>
-				<input type="text" name="plan_need_partner_skills" id="hacker-need-partner-skills-shadow" style="display:none;">
+				<textarea multiline="true" id="hacker-need-partner-skills"><%= plan_need_partner_skills %></textarea>
+				<input type="text" name="plan_need_partner_skills" id="hacker-need-partner-skills-shadow" style="display:none;" value="<%= plan_need_partner_skills %>">
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
-				<button class="left" type="button"><div>Previous</div></button>
-				<button class="right" type="submit"><div>Submit</div></button>
+				<button class="left btn" type="button"><div>Previous</div></button>
+				<button class="right btn" type="submit"><div><%= update=="true" ? "Update" : 'Submit' %></div></button>
 			</li>
 
 
@@ -252,17 +220,15 @@
 				<hr class="withbottom">
 			</li>
 			<li>
-				<span>Please take a moment to fill out an optional and anonymous survey</span>
+				<span><%= update=="true" ? "If You haven't yet, p" : 'P' %>lease take a moment to fill out an optional and anonymous survey</span>
 			</li>
 			<li>
 				<hr>
 			</li>
 			<li class="split">
 				<div></div>
-				<button id="anon-surv" class="right" type="button"><div>Anonymous Survey</div></button>
+				<button id="anon-surv" class="right btn" type="button"><div>Anonymous Survey</div></button>
 			</li>
-
-
 		</ul>
 	</div>
 </form>
@@ -337,7 +303,7 @@
 			</li>
 			<li class="split">
 				<div></div>
-				<button class="right" type="submit" id="anon-submit"><div>Submit</div></button>
+				<button class="right btn" type="submit" id="anon-submit"><div>Submit</div></button>
 			</li>
 		</ul>
 	</div>
@@ -350,4 +316,4 @@
 		</li>
 	</ul>
 </div>
-</html>
+<%include part_foot %>

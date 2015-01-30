@@ -126,14 +126,17 @@ $(document).ready(function(){
 		moveRight();
 	});
 	$("#validate-resume").click(function(){
-		$this = $(this).closest("ul");
-		var resume = $this.find("#resume-button-shadow");
-		if(resume.val().length <= 0){
-			resume.addClass("error");
-			$("#resume-button").addClass("error");
-		}
-		if($this.find(".error").length <= 0)
-			moveRight();
+		if($("#resume-button-shadow").attr("data-done") == undefined){
+			$this = $(this).closest("ul");
+			var resume = $this.find("#resume-button-shadow");
+			if(resume.val().length <= 0){
+				resume.addClass("error");
+				$("#resume-button").addClass("error");
+			}
+			if($this.find(".error").length <= 0)
+				moveRight();
+		}else
+			moveRight()
 	});
 	
 	$("form").on("change", ".error", function (){
@@ -153,14 +156,18 @@ $(document).ready(function(){
 		e.preventDefault();
 		
 		var data = new FormData();
-		$.each($("#application input"), function(index, obj){
-			console.log(obj)
+		$.each($("#application input, #application select"), function(index, obj){
+			console.log($(obj).attr("name"), $(obj).val())
 			data.append($(obj).attr("name"), $(obj).val())
 		});
-		data.append("resume", resume);
+		if(resume == undefined)
+			data.append("resume", $("#resume-button-shadow").attr("data-done"));
+		else
+			data.append("resume", resume);
 
+		var purl = $(this).attr("Action");
 		$.ajax({
-			url:"/users/apply",
+			url:purl,
 			type:"POST",
 			data:data,
 			dataType:"json",

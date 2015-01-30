@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<% if(locals.title){ %>
-			<title> <%= locals.title %></title>
-		<% }else{ %>
-			<title> MadHacks </title>
-		<% } %>
-		<link rel='stylesheet' href='/css/style.css'>
-		<!-- <link rel='stylesheet' href='/css/fancyInput.css'> -->
-		<script src="/js/jquery.js"></script>
-	<body>
-		<div id="content">
+<head>	
+	<meta name="viewport" content="width=device-width" />
+	<title>MadHacks</title>
+	<link rel="stylesheet" type="text/css" href="/css/inputs.css">
+	<link rel="stylesheet" type="text/css" href="/css/application.css">
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/application.js"></script>
+	<!--[if gte IE 9]>
+		<style type="text/css">
+			#footerTable td:hover {
+			   filter: none;
+			}
+		</style>
+	<![endif]-->
+</head>
+	<div id="footerInner" class="inner" style="display:none;pointer-events:none;">
+		<div class="hackCity" style="height:0;pointer-events:none;" >General</div>
+		<ul style="pointer-events:none;">
+			<li>
+				<div class="bottom">
+					<div class="hackCity">MadHacks</div>			
+					<table id="footerTable">
+						<tr>
+							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/">Home</a></td>
+							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/about">About</a></td>
+							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/sponsor">Sponsor</a></td>
+							<td style="pointer-events:auto;" class="hackCity"><a style="pointer-events:auto;" href="/contact">Contact</a></td>
+						</tr>
+					</table>
+				</div>
+			</li>
+		</ul>
+	</div>

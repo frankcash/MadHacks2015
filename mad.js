@@ -43,25 +43,8 @@ if (!exists) {
  }
 
 //setup password encryption
-var bcrypt = require('bcrypt-nodejs');
-//encrypt password -> callback(err, hash)
-global.cryptPassword = function (password, callback) {
-	bcrypt.genSalt(10, function (err, salt) {
-	if (err) return callback(err);
-	  else {
-		bcrypt.hash(password, salt, null, function (err, hash) {
-			return callback(err, hash);
-		});
-	  }
-  });
- };
-//decript password -> callback(bool matches)
-global.comparePassword = function (password, hash, callback) {
-	bcrypt.compare(password, hash, function (err, isPasswordMatch) {
-	  if (err) return callback(err);
-	  else return callback(null, isPasswordMatch);
-	});
- };
+global.bcrypt = require('bcrypt-nodejs');
+
 global.s4 = function() {return Math.floor((1 + Math.random()) * 0x10000).toString(36);};
 global.getUser = function(req, success, fail){
 	if(req.signedCookies.user){
@@ -74,6 +57,7 @@ global.getUser = function(req, success, fail){
 		fail({error:"no cookie"});
 	}
 }
+
 global.validator = require('validator');
 
 var routes = require('./routes/index');
@@ -93,7 +77,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(cookieParser());
+app.use(cookieParser(keys.secret));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy()); 
 
@@ -119,7 +103,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);
-		res.render('error', {
+		res.render('page_error', {
 			message: err.message,
 			error: err
 		});
@@ -130,7 +114,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
-	res.render('error', {
+	res.render('page_error', {
 		message: err.message,
 		error: {}
 	});
