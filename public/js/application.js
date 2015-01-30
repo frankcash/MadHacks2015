@@ -1,5 +1,6 @@
 var showing = 0;
 var shades;
+var resume;
 var orderArr = [
 	[0,1,2,3,4,5,6,7,8],
 	[1,0,1,2,3,4,5,6,7],
@@ -15,22 +16,31 @@ var validate = {
 
 }
 var order = function(){
-	console.log("order");
-	$.each(shades, function(index, obj){				
+	$.each(shades, function(index, obj){
+		index -= 1;				
 		var left, zindex, opacity;
-		if($(window).width() < 1000){
-			left = "0px";
+
+		if($(obj).attr("id") == "footerInner"){
+			zindex = -2000;
+			opacity = 1;
+			if( $(window).width() < 1000 ){
+				left = "0px";
+			}else{
+				left = $(window).width()/2 - $(obj).width()/2 + "px"
+			}
 		}else{
-			left = $(window).width()/2;
-			left -= $(obj).width()/2;
-			left += 40*(index-showing);
-			left += "px";
+			zindex = orderArr[showing][index];
+			opacity = zindex/5;
+			opacity = 1 - opacity;
+			if( $(window).width() < 1000 ){
+				left = "0px";
+			}else{
+				left = $(window).width()/2 - $(obj).width()/2;
+				left += 40*(index-showing);
+				left += "px";
+			}
 		}
-		zindex = orderArr[showing][index];
-
-		opacity = zindex/5;
-		opacity = 1 - opacity;
-
+		
 		$(obj).css({"left":left, "z-index":1000-zindex, "opacity":opacity });
 	});
 }
@@ -70,11 +80,11 @@ $(document).ready(function(){
 		}
 	});
 	$("#resume-button").click(function (){
-		console.log("click")
 		$("#resume-button-shadow").click();
 	});
 	$("#resume-button-shadow").change(function(e){
 		$("#resume-button").find("div").text(e.target.files[0].name);
+		resume = e.target.files[0];
 		$("#resume-button").addClass("done");
 	});
 	var validateLength = function ($input){
@@ -127,7 +137,6 @@ $(document).ready(function(){
 	});
 	
 	$("form").on("change", ".error", function (){
-		console.log("focus")
 		$(this).removeClass("error");
 		if($(this).attr("type") == "file")
 			$("#resume-button").removeClass("error");
@@ -135,7 +144,6 @@ $(document).ready(function(){
 	$("textarea").change(function (){
 		var id = $(this).attr("id");
 		var text = $(this).val();
-		console.log("change", id, text);
 		$("#"+id+"-shadow").val(text);
 	});
 	$("#footerTable td").click(function(){
@@ -143,11 +151,21 @@ $(document).ready(function(){
 	});
 	$("#application").submit(function (e){
 		e.preventDefault();
+		
+		var data = new FormData();
+		$.each($("#application input"), function(index, obj){
+			console.log(obj)
+			data.append($(obj).attr("name"), $(obj).val())
+		});
+		data.append("resume", resume);
+
 		$.ajax({
 			url:"/users/apply",
 			type:"POST",
-			data:$(this).serialize(),
+			data:data,
 			dataType:"json",
+			processData: false,
+			contentType: false,
 			beforeSend:function (){
 				$("button").attr("disabled", "disabled");
 			},
@@ -157,9 +175,7 @@ $(document).ready(function(){
 				}
 			},
 			error: function(error){
-				if(error.responseJSON.error == "exists"){
-
-				}
+				$("button").removeAttr("disabled", "disabled");
 			},
 			complete: function(a){
 				$("button").removeAttr("disabled", "disabled");

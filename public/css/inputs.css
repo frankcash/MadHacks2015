@@ -9,6 +9,7 @@ input, label, select, span, textarea{
 	margin-top:10px;
 	outline: 0;
 	outline: none;
+	font-family: arial
 
 }
 select{
