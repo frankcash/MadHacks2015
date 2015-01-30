@@ -5,162 +5,12 @@
 	<link rel="stylesheet" type="text/css" href="/css/inputs.css">
 	<link rel="stylesheet" type="text/css" href="/css/application.css">
 	<script type="text/javascript" src="/js/jquery.js"></script>
-	<script type="text/javascript">
-		var showing = 0;
-		var shades;
-		var orderArr = [
-			[0,1,2,3,4,5],
-			[1,0,1,2,3,4],
-			[2,1,0,1,2,3],
-			[3,2,1,0,1,2],
-			[4,3,2,1,0,1],
-			[5,4,3,2,1,0]
-		];
-		var validate = {
-
-		}
-		var order = function(){
-			$.each(shades, function(index, obj){				
-				var left, zindex, opacity;
-
-				left = $(window).width()/2;
-				left -= $(obj).width()/2;
-				left += 40*(index-showing);
-
-				zindex = orderArr[showing][index];
-
-				opacity = zindex/5;
-				opacity = 1 - opacity;
-
-				$(obj).css({"left":left, "z-index":1000-zindex, "opacity":opacity });
-			});
-		}
-		$(document).ready(function(){
-			shades = $(".inner");
-			order();
-			var moveRight = function(){
-				showing = (showing+1) % shades.length;
-				order();
-			};
-			$(".left").click(function(){
-				showing = (showing-1) % shades.length;
-				order();
-			});
-			$("#school-attend-school").change(function (){
-				$("#school-selector").slideToggle();
-				$("#school-school").removeClass("error");
-			});
-			$("input[name='travel']:radio").change(function () {
-				$("#venmo").slideToggle();
-				$("#school-venmo").removeClass("error");
-			});
-			$("#hacker-plan-hardware").change(function (){
-				$("#plan-hardware-on").slideToggle();
-				$("#hacker-plan-hardware-on").removeClass("error");
-			});
-			$("#hacker-need-partner, #hacker-plan-mentor").change(function (){
-				if( $("#hacker-need-partner").prop('checked')
-				 || $("#hacker-plan-mentor").prop('checked') )
-					$("#partner").slideDown();
-				else{
-					$("#partner").slideUp();
-					$("#hacker-need-partner-skills").removeClass("error");
-				}
-			});
-			$("#resume-button").click(function (){
-				console.log("click")
-				$("#resume-button-shadow").click();
-			});
-			$("#resume-button-shadow").change(function(e){
-				$("#resume-button").find("div").text(e.target.files[0].name);
-				$("#resume-button").addClass("done");
-			});
-			var validateLength = function ($input){
-				if($input.val().length <= 0)
-					$input.addClass("error");
-			}
-			var validateSelect = function ($input){
-				if($input.val() == null)
-					$input.addClass("error");
-			}
-			$("#validate-general").click(function(){
-				$this = $(this).closest("ul");
-				validateLength($this.find("#general-first-name"));
-				validateLength($this.find("#general-last-name"));
-				validateLength($this.find("#general-email"));
-				validateLength($this.find("#general-password"));
-				validateSelect($this.find("#general-swag-size"));
-				
-				if($this.find(".error").length <= 0)
-					moveRight();
-			});
-			$("#validate-school").click(function(){
-				$this = $(this).closest("ul");
-				if($this.find("#school-attend-school").prop("checked")){
-					validateSelect($this.find("#school-school"));
-				}
-				validateLength($this.find("#school-city"));
-				validateLength($this.find("#school-zip"));
-				validateSelect($this.find("#school-state"));
-				validateSelect($this.find("#school-country"));
-				if($this.find("#school-travel-yes").prop("checked")){
-					validateLength($this.find("#school-venmo"));
-				}
-				
-				if($this.find(".error").length <= 0)
-					moveRight();
-			});
-			$("#validate-diet").click(function(){
-				moveRight();
-			});
-			$("#validate-resume").click(function(){
-				$this = $(this).closest("ul");
-				var resume = $this.find("#resume-button-shadow");
-				if(resume.val().length <= 0){
-					resume.addClass("error");
-					$("#resume-button").addClass("error");
-				}
-				if($this.find(".error").length <= 0)
-					moveRight();
-			});
-			
-			$("form").on("change", ".error", function (){
-				console.log("focus")
-				$(this).removeClass("error");
-				if($(this).attr("type") == "file")
-					$("#resume-button").removeClass("error");
-			});
-			$("textarea").change(function (){
-				var id = $(this).attr("id");
-				var text = $(this).val();
-				console.log("change", id, text);
-				$("#"+id+"-shadow").val(text);
-			});
-			$("#application").submit(function (e){
-				e.preventDefault();
-				$.ajax({
-					url:"/users/apply",
-					type:"POST",
-					data:$(this).serialize(),
-					dataType:"json",
-					success:function (result){
-						console.log(result)
-					},
-					error: function(error){
-						console.log(error)
-					},
-					complete: function(a){
-						console.log("complete", a)
-					}
-				})
-			});
-
-		});
-	</script>
+	<script type="text/javascript" src="/js/application.js"></script>
 </head>
 </html>
 <form class="container" id="application" action="/user/apply" method="POST">
-	<div id="general" class="inner">
+	<div id="general" class="inner" style="display:none;">
+		<div class="hackCity">General</div>
 		<ul>
 			<li class="split">
 				<input type="text" id="general-last-name" name="firstname" placeholder="First Name">
@@ -182,6 +32,10 @@
 					<option value="xxxl">xxxLarge</option>
 				</select>
 			</li>
+			<li style="margin-top:10px;">
+				<input type="checkbox" id="general-age" name="is_18">
+				<label for="general-age">Will you be 18 years of age by April 17th, 2015?&nbsp;<div><div></div></div></label>
+			</li>
 			<li>
 				<hr>
 			</li>
@@ -189,9 +43,59 @@
 				<d>&nbsp;</d>
 				<button id="validate-general" class="right" type="button"><div>Next</div></button>
 			</li>
+			<div class="bottom">
+				<div class="hackCity">Madhacks</div>			
+				<table id="footerTable">
+					<tr>
+						<td class="hackCity"><a href="/">Home</a></td>
+						<td class="hackCity"><a href="/about">About</a></td>
+						<td class="hackCity"><a href="/sponsor">Sponsor</a></td>
+						<td class="hackCity"><a href="/contact">Contact</a></td>
+					</tr>
+				</table>
+			</div>
+			<style type="text/css">
+			#footerTable{
+				text-align: center;
+				table-layout: fixed;
+				width: 100%;
+				border-width: 0;
+			}
+			#footerTable td{
+				border-width: 0;
+				padding: 0;
+				font-size: 1em;
+			}
+			#footerTable a{
+				color: white;
+				width: 100%;
+				height: 100%;
+				text-decoration: none;
+			}
+			#footerTable td:hover{
+				background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzgwMDA4MCIgc3RvcC1vcGFjaXR5PSIwLjU3Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+				background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(128,0,128,0.57) 50%, rgba(0,0,0,0) 100%);
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(50%,rgba(128,0,128,0.57)), color-stop(100%,rgba(0,0,0,0)));
+				background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(128,0,128,0.57) 50%,rgba(0,0,0,0) 100%);
+				background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(128,0,128,0.57) 50%,rgba(0,0,0,0) 100%);
+				background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(128,0,128,0.57) 50%,rgba(0,0,0,0) 100%);
+				background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(128,0,128,0.57) 50%,rgba(0,0,0,0) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=0 );
+
+				cursor: pointer;
+			}
+			</style>
+			<!--[if gte IE 9]>
+				<style type="text/css">
+					#footerTable td:hover {
+					   filter: none;
+					}
+				</style>
+			<![endif]-->
 		</ul>
 	</div>
-	<div id="school" class="inner">
+	<div id="school" class="inner" style="display:none;">
+		<div class="hackCity">School</div>
 		<ul>
 			<li>
 				<input type="checkbox" id="school-attend-school" name="attend_school" checked>
@@ -230,7 +134,8 @@
 			</li>
 		</ul>
 	</div>
-	<div id="diet" class="inner">
+	<div id="diet" class="inner" style="display:none;">
+		<div class="hackCity">Diet</div>
 		<ul>
 			<li>
 				<span>Dietary Restrictions</span>
@@ -281,7 +186,8 @@
 			</li>
 		</ul>
 	</div>
-	<div id="resume" class="inner">
+	<div id="resume" class="inner" style="display:none;">
+		<div class="hackCity">Professional</div>
 		<ul>
 			<li class="split">
 				<span>github.com/</span>
@@ -311,7 +217,8 @@
 			</li>
 		</ul>
 	</div>
-	<div id="hacker" class="inner">
+	<div id="hacker" class="inner" style="display:none;">
+		<div class="hackCity">Hacker</div>
 		<ul>
 			<li>
 				<label for="hacker-exposure">How did you hear about MadHacks?</label>
@@ -353,14 +260,113 @@
 			</li>
 		</ul>
 	</div>
+	<div id="success" class="inner" style="display:none;">
+		<div class="hackCity">Success</div>
+		<ul style="text-align:center;">
+			<li>
+				<img src="/img/logo.png">
+			</li>
+			<li>
+				<span><span class="hack">#Hack</span><span class="city">City</span></span>
+			</li>
+			<li>
+				<hr class="withbottom">
+			</li>
+			<li>
+				<span>Please take a moment to fill out an optional and anonymous survey</span>
+			</li>
+			<li>
+				<hr>
+			</li>
+			<li class="split">
+				<div></div>
+				<button id="anon-surv" class="right" type="button"><div>Anonymous Survey</div></button>
+			</li>
+		</ul>
+	</div>
+</form>
+<form id="anon" action="/users/anon" method="POST">
+	<div id="survey" class="inner" style="display:none;">
+		<ul>
+			<div class="hackCity">Spooky Anon</div>
+			<li class="split">
+				<%include part_state_select%>
+				<input type="text" name="age" placeholder="Age">
+			</li>
+			<li class="split">
+				<select name="degree">
+					<option selected disabled hidden value='#'>Study</option>
+					<option value="cs">Computer Science</option>
+					<option value="se">Software Engineering</option>
+					<option value="ee">Electrical Engineering</option>
+					<option value="ce">Computer Engineering</option>
+					<option value="d">Design</option>
+					<option value="b">Business</option>
+					<option value="o">Other</option>
+				</select>
+				<select name="education">
+					<option selected disabled hidden value='#'>Education</option>
+					<option value="highschool">High School</option>
+					<option value="dropout">Dropout</option>
+					<option value="freshman">Freshman</option>
+					<option value="sophomore">Sophomore</option>
+					<option value="junior">Junior</option>
+					<option value="senior">Senior</option>
+					<option value="senior++">Senior++</option>
+					<option value="gradschool">Grad School</option>
+					<option value="graduate">Graduate</option>
+				</select>
+			</li>
+			<li class="split">
+				<select name="gender">
+					<option selected disabled hidden value='#'>Gender</option>
+					<option value="male">Hacker Boy</option>
+					<option value="female">Hacker Girl</option>
+					<option value="other">Just Hacker</option>
+				</select>
+				<select name="ethnicity">
+					<option selected disabled hidden value='#'>Ethnicity</option>
+					<option value="n">Native American</option>
+					<option value="a">Asian</option>
+					<option value="i">India</option>
+					<option value="b">Black</option>
+					<option value="p">Pacific</option>
+					<option value="w">White</option>
+					<option value="o">Other</option>
+				</select>
+			</li>
+			<li class="split">
+				<span>How many Hackathons have you been to?</span>
+				<input type="text" name="hacks" placeholder=">9000">
+			</li>
+			<li class="split">
+				<span>How many of your parents/guardians have college degrees?</span>
+				<select name="parent_education">
+					<option value="none">None</option>
+					<option value="one">One</option>
+					<option value="multiple">Multiple</option>
+				</select>
+			</li>
+			<li class="split">
+				<span>What is your background?</span>
+				<input type="text" name="background" placeholder='"designer/programmer"'>
+			</li>
+			<li>
+				<hr>
+			</li>
+			<li class="split">
+				<div></div>
+				<button class="right" type="submit" id="anon-submit"><div>Submit</div></button>
+			</li>
+		</ul>
+	</div>
+</form>
+<div id="thanks" class="inner" style="display:none;">
+	<div class="hackCity">Thanks!</div>
+	<ul style="text-align:center;">
+		<li style="margin-top:30px;">
+			<span><span class="hack">#Hack</span><span class="city">City</span></span>
+		</li>
+	</ul>
 </div>
-
-<style type="text/css">
-	
-
-</style>
-<style>
-
-</style>
-
-<%include part_foot %>
+</html>

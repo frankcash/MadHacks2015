@@ -74,6 +74,18 @@ router.get('/unsubscribe', function(req, res){
 });
 
 router.post('/apply', function(req, res){
-	console.log(req.body)
+	global.sqler.insertApplication(req.body, function(err){
+		console.log("error", err);
+		if(err)
+			res.send(400, {success:false, error:err.err});
+		else
+			res.send(200,{success:true});
+	});
+});
+
+router.post('/anon', function(req, res){
+	console.log(req.body);
+	global.sqler.insertAnon(req.body, function(){});
+	res.send(200, {success:true});
 });
 module.exports = router;

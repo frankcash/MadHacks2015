@@ -1,3 +1,38 @@
+
+@font-face {
+  font-family: 'RageItalic';
+  src:	url('../fonts/RageItalic.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/RageItalic.woff') format('woff'),
+		url('../fonts/RageItalic.ttf')  format('truetype'),
+		url('../fonts/RageItalic.svg#RageItalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'thin';
+  src:	url('../fonts/MindBlueLight.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/MindBlueLight.woff') format('woff'),
+		url('../fonts/MindBlueLight.ttf')  format('truetype'),
+		url('../fonts/MindBlueLight.svg#RageItalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'thinbold';
+  src:	url('../fonts/MindBlue-Bold.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/MindBlue-Bold.woff') format('woff'),
+		url('../fonts/MindBlue-Bold.ttf')  format('truetype'),
+		url('../fonts/MindBlue-Bold.svg#RageItalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.hack{
+	font-family: thin;
+}
+.city{
+	font-family: thinbold
+}
+
 body, html{
 	padding: 0;
 	margin: 0;
@@ -20,11 +55,37 @@ body, html{
 
 	position: fixed;
 
-	-webkit-transform: skew(-20deg);
-	-moz-transform: skew(-20deg);
-	-ms-transform: skew(-20deg);
-	-o-transform: skew(-20deg);
-	transform: skew(-20deg);
+}
+.bottom{
+	position: fixed;
+	bottom:5px;	
+}
+.bottom > .hackCity{
+	font-size: 3em;
+}
+@media (min-width: 1001px) {
+	.inner{
+		-webkit-transform: skew(-20deg);
+		-moz-transform: skew(-20deg);
+		-ms-transform: skew(-20deg);
+		-o-transform: skew(-20deg);
+		transform: skew(-20deg);
+		width:40%;
+	}
+	.bottom{
+		width: 100%;
+	}
+}
+@media (max-width: 1000px) {
+	.inner{
+		width: 80%;
+		padding-left: 5%;
+		padding-right: 5%;
+		margin-left: 5%;
+	}
+	.bottom{
+		width: 80%;
+	}
 }
 
 .inner::-webkit-scrollbar {
@@ -61,6 +122,48 @@ li.split > *:last-child{
 	margin-left: 1.5%;
 }
 body{
-	background: url('/img/apply_back.png');
+	background: url('/img/apply_back_cap.png');
 	background-size: cover;
+}
+
+.hackCity {
+
+	/*-webkit-transform: skew(-20deg);*/
+	/*-moz-transform: skew(-20deg);*/
+	/*-ms-transform: skew(-20deg);*/
+	/*-o-transform: skew(-20deg);*/
+	/*transform: skew(-20deg);*/
+
+	font-family: RageItalic;
+	text-shadow: 0 0 0.3em #F55FFF, 0 0 0.3em #F55FFF;
+	position: relative;
+	font-size: 5em;
+	z-index: 1;
+	overflow: hidden;
+	text-align: center;
+}
+.hackCity:before, .hackCity:after {
+	position: absolute;
+	top: 51%;
+	overflow: hidden;
+	width: 50%;
+	height: 2px;
+	content: '\a0';
+	background-color: purple;
+}
+.hackCity:before {
+	margin-left: -50%;
+	text-align: right;
+}
+
+#success li{
+	position: relative;
+}
+#success img{
+	width: 50%;
+	margin-left:auto;
+	margin-right: auto;
+}
+#success .withbottom{
+	margin-bottom: 10px;
 }
