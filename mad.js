@@ -29,10 +29,10 @@ if (!exists) {
 	console.log("creating new db");
 	db.serialize(function () {
 
-		sqler.createApplications(function(){
+		sqler.createApplications(function(err){
             if(err) console.log(err);
         });
-        sqler.createAnon(function(){
+        sqler.createAnon(function(err){
             if(err) console.log(err);
         });
 		db.run('CREATE TABLE "subscriptions" (  "email" blob PRIMARY KEY NOT NULL, '+
