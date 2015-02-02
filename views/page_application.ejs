@@ -66,7 +66,7 @@
 					<label for="school-travel-yes">Yes:<div><div></div></div></label>
 				</div>
 			</li>
-			<li id="venmo" class="split" <%= travel=="false" ? 'style="display:none;"' : '' %>>
+			<li id="venmo" class="split" <%= travel=="false" ? 'style=display:none;' : '' %>>
 				<span>venmo.com/</span>
 				<input type="text" id="school-venmo" name="venmo" placeholder="Venmo ID" value="<%= venmo %>">
 			</li>
@@ -174,7 +174,7 @@
 				<input type="checkbox" id="hacker-plan-hardware" name="plan_hardware" <%= plan_hardware=="true" ? "checked" : '' %>>
 				<label for="hacker-plan-hardware">Do you plan to hack on hardware?<div><div></div></div></label>
 			</li>
-			<li id="plan-hardware-on" <%= plan_hardware=="false" ? 'style="display:none;"' : '' %>>
+			<li id="plan-hardware-on" <%= plan_hardware=="true" ? '' : 'style=display:none;' %>>
 				<label for="hacker-exposure">What Hardware do you want to hack on?</label>
 				<textarea multiline="true" id="hacker-plan-hardware-on"><%= plan_hardware_on %></textarea>
 				<input type="text" name="plan_hardware_on" id="hacker-plan-hardware-on-shadow" style="display:none;" value="<%= plan_hardware_on %>">
@@ -191,7 +191,7 @@
 				<input type="checkbox" id="hacker-need-partner" name="need_partner" <%= need_partner=="true" ? "checked" : '' %>>
 				<label for="hacker-need-partner">Are you looking for partners?<div><div></div></div></label>
 			</li>
-			<li id="partner" <%= (plan_mentor=="true" || need_partner=="true") ? '' : 'style="display:none;"' %>>
+			<li id="partner" <%= (plan_mentor=="true" || need_partner=="true") ? '' : 'style=display:none;' %>>
 				<label for="hacker-exposure">What are some of your areas of knowledge?</label>
 				<textarea multiline="true" id="hacker-need-partner-skills"><%= plan_need_partner_skills %></textarea>
 				<input type="text" name="plan_need_partner_skills" id="hacker-need-partner-skills-shadow" style="display:none;" value="<%= plan_need_partner_skills %>">

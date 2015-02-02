@@ -76,36 +76,25 @@ router.get('/unsubscribe', function(req, res){
 
 router.post('/apply', function(req, res){
 	var body = {};
-	var once = false;
-	var done = function (){
-		if(once == false){
-			once = true;
-			global.sqler.insertApplication(body, function(err){
-				console.log("done");
-				console.log("error", err);
-				if(err)
-					res.send(400, {success:false, error:err.err});
-				else
-					res.send(200,{success:true});
-			});
-		}
-	}
+
 	if(req.busboy) {
 		req.busboy.on("file", function(fieldName, file, filename) {
 			filename = global.s4() + global.s4() + "." + filename.split(".")[filename.split(".").length - 1];
 			body.resume = filename;
 			var fstream = fs.createWriteStream(__dirname + '/../resumes/' + filename);
-			fstream.on('close', function () {
-				if(req.busboy["_done"])
-					done();
-			});
+			fstream.on('close', function () {});
 			file.pipe(fstream);
 		});
 		req.busboy.on('field', function(key, value) {
 			body[key] = value;
-			console.log(req.busboy["_done"]);
-			if(req.busboy["_done"])
-				done();
+    	});
+    	req.busboy.on('finish', function(a,b,c){
+			global.sqler.insertApplication(body, function(err){
+				if(err)
+					res.send(400, {success:false, error:err.err});
+				else
+					res.send(200,{success:true});
+			});
     	});
 		req.pipe(req.busboy);
 	}
@@ -117,36 +106,27 @@ router.post('/apply', function(req, res){
 
 router.post('/update', function(req, res){
 	var body = {};
-	var once = false;
-	var done = function (){
-		if(once == false){
-			once = true;
-			global.sqler.updateApplication(req, body, function(err){
-				console.log("done");
-				console.log("error", err);
-				if(err)
-					res.send(400, {success:false, error:err.err});
-				else
-					res.send(200,{success:true});
-			});
-		}
-	}
+
 	if(req.busboy) {
 		req.busboy.on("file", function(fieldName, file, filename) {
 			filename = global.s4() + global.s4() + "." + filename.split(".")[filename.split(".").length - 1];
 			body.resume = filename;
 			var fstream = fs.createWriteStream(__dirname + '/../resumes/' + filename);
 			fstream.on('close', function () {
-				if(req.busboy["_done"])
-					done();
 			});
 			file.pipe(fstream);
 		});
 		req.busboy.on('field', function(key, value) {
 			body[key] = value;
-			console.log(req.busboy["_done"]);
-			if(req.busboy["_done"])
-				done();
+    	});
+    	req.busboy.on('finish', function(){
+    		console.log(body, body.plan_hardware === 'on');
+			global.sqler.updateApplication(req, body, function(err){
+				if(err)
+					res.send(400, {success:false, error:err.err});
+				else
+					res.send(200,{success:true});
+			});
     	});
 		req.pipe(req.busboy);
 	}

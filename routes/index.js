@@ -62,6 +62,7 @@ router.get('/apply', function(req, res) {
 			res.render('page_application', blankUser);
 		}else{
 			user.update = 'true';
+			console.log("old", user);
 			res.render('page_application', user);
 		}
 	});

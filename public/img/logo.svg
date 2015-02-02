@@ -14,7 +14,11 @@
    height="1550"
    id="svg3110"
    version="1.1"
-   inkscape:version="0.48.5 r10040">
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/joedailey/MadHacks2014/public/img/favicon.png"
+   inkscape:export-xdpi="0.93000001"
+   inkscape:export-ydpi="0.93000001">
   <defs
      id="defs3112">
     <filter
@@ -98,6 +102,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

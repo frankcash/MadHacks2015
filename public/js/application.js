@@ -157,9 +157,16 @@ $(document).ready(function(){
 		
 		var data = new FormData();
 		$.each($("#application input, #application select"), function(index, obj){
-			console.log($(obj).attr("name"), $(obj).val())
-			data.append($(obj).attr("name"), $(obj).val())
+			console.log($(obj).attr("type"), $(obj).attr("name"), $(obj).val())
+			
+			if( !($(obj).is("select")) && $(obj).attr("type") == "checkbox"){
+				data.append($(obj).attr("name"), $(obj).prop("checked"))
+			}else{
+				data.append($(obj).attr("name"), $(obj).val());
+			}
 		});
+		data.append("travel", $('input[name=travel]:checked').val());
+		
 		if(resume == undefined)
 			data.append("resume", $("#resume-button-shadow").attr("data-done"));
 		else
