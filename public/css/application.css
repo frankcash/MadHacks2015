@@ -311,7 +311,8 @@ html{
 }
 
 .contact-logos{
-	margin: 0 30%;
+	/*padding-left:30%;*/
+	margin-top: 20px;
 }
 .contact-logos a{
 	-webkit-transform: skew(20deg);
@@ -328,6 +329,7 @@ html{
 	margin-left: 5%;
 }
 .contact-logos a:first-child{
+	margin-left: 32%;
 	margin-right: 5%;
 }
 .contact-logos a:first-child:hover > img{
