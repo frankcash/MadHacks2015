@@ -309,3 +309,40 @@ html{
 		margin-left: 0;
 	}
 }
+
+.contact-logos{
+	margin: 0 30%;
+}
+.contact-logos a{
+	-webkit-transform: skew(20deg);
+	-moz-transform: skew(20deg);
+	-ms-transform: skew(20deg);
+	-o-transform: skew(20deg);
+	transform: skew(20deg);
+	width: 15%;
+}
+.contact-logos img{
+	width: 100%;
+}
+.contact-logos a:last-child{
+	margin-left: 5%;
+}
+.contact-logos a:first-child{
+	margin-right: 5%;
+}
+.contact-logos a:first-child:hover > img{
+	width: 110%;
+	margin-left: -10%;
+	margin-top: -10%;
+}
+.contact-logos a:last-child:hover > img{
+	width: 110%;
+	margin-right: -10%;
+	margin-top: -10%;
+}
+.centerText{
+	text-align: center;
+}
+.marginTop{
+	margin-top: 10px;
+}
