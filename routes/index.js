@@ -5,7 +5,7 @@ var blankUser = {
 	lastname: '',
 	email: '',
 	password: '',
-	swag_size: 'm',
+	swag_size: '',
 	is_18: 'false',
 	attend_school: 'true',
 	school: '',
@@ -34,7 +34,7 @@ var blankUser = {
 	plan_mentor: 'false',
 	need_partner: 'false',
 	plan_need_partner_skills: '',
-	update:'true'
+	update:'false'
 }
 
 /* GET home page. */
