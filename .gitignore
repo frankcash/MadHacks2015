@@ -52,3 +52,5 @@ sftp-config.json
 
 keys.json
 db.sqlite
+resumes/*
+!resumes/.keep
