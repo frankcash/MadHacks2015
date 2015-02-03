@@ -28,6 +28,7 @@
 }
 *{
 	font-family:arial;
+	box-sizing:border-box;
 }
 .hack{
 	font-family: thinbold;
@@ -267,16 +268,18 @@ html{
 		width: 100%;
 	}
 	li.split > *{
-		width: 48%;
+		width: 50%;
 		display: inline-block;
 	}
 	li.split > *:first-child{
 		text-align: right;
 		margin-right: 0;
+		float: left;
 	}
 	li.split > *:last-child{
 		text-align: left;
 		margin-left: 0;
+		float: right;
 	}
 }
 @media (max-width: 1000px) {
@@ -303,10 +306,12 @@ html{
 	li.split > *:first-child{
 		text-align: right;
 		margin-right: 0;
+		float: left;
 	}
 	li.split > *:last-child{
 		text-align: left;
 		margin-left: 0;
+		float: right;
 	}
 }
 
