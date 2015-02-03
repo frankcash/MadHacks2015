@@ -15,6 +15,13 @@ var orderArr = [
 var validate = {
 
 }
+var align = function(){
+	$.each(paras, function(index, obj){
+		var top = $(shades[showing+1]).scrollTop();
+		top *= (index+1)*0.5;
+		$(obj).css({"top":-top});
+	});
+}
 var order = function(){
 	$.each(shades, function(index, obj){
 		index -= 1;				
@@ -43,11 +50,20 @@ var order = function(){
 		
 		$(obj).css({"left":left, "z-index":1000-zindex, "opacity":opacity });
 	});
+	align();
 }
 $(document).ready(function(){
 	shades = $(".inner");
+	paras = $(".parallax");
 	order();
 	$(window).resize(order);
+	$.each(shades, function(index, obj){
+		$(obj).on("scroll", function(){
+			if(index-1 == showing){
+				align();
+			}
+		});
+	});
 	$(".inner").show(0);
 	var moveRight = function(){
 		showing = (showing+1) % shades.length;

@@ -166,7 +166,7 @@ li > *{
 html{
 	height: 100vh;
 	width: 100vw;
-	background: url('/img/apply_back_cap.png');
+	background: #dbe9b4;
 	background-size: cover;
 }
 
@@ -352,4 +352,38 @@ html{
 }
 .marginTop{
 	margin-top: 10px;
+}
+
+.parallax{
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+}
+.parallax > img{
+	/*position: absolute;*/
+	/*bottom: 0px;*/
+	width: 100vw;
+}
+#para1.parallax{
+	/*background:#b3cea5;*/
+	z-index: 0;
+}
+.parallax > div{
+	height: 100vh;
+	width: 100vw;
+	/*position: absolute;*/
+}
+#para1.parallax > div{
+	background: #b3cea5;
+}
+#para2.parallax > div{
+	background:#9bb38f;
+	z-index: 1;
+}
+#para3.parallax > div{
+	background:#6c543e;
+	z-index: 2;
 }
