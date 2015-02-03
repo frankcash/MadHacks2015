@@ -372,9 +372,9 @@ html{
 	z-index: 0;
 }
 .parallax > div{
-	height: 100vh;
+	height: 200vh;
 	width: 100vw;
-	/*position: absolute;*/
+	margin-top: -5px;
 }
 #para1.parallax > div{
 	background: #b3cea5;

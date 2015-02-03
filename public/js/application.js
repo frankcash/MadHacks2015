@@ -12,9 +12,6 @@ var orderArr = [
 	[7,6,5,4,3,2,1,0,1],
 	[8,7,6,5,4,3,2,1,0]
 ];
-var validate = {
-
-}
 var align = function(){
 	$.each(paras, function(index, obj){
 		var top = $(shades[showing+1]).scrollTop();
