@@ -147,10 +147,9 @@ router.post('/login', function(req, res){
 		console.log("match:",isMatch)
 		if(err || !isMatch)
 			res.redirect("/login")
-			// res.render('page_login', {title:"login", email:body.email});
 		else{
-			res.cookie("user", req.body.email, {signed:true});
-			res.redirect("/apply");
+			res.cookie("user", req.body.email.toLowerCase(), {signed:true});
+			res.redirect("/");
 		}
 	});
 });
