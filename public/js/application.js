@@ -100,6 +100,9 @@ $(document).ready(function(){
 		validateLength($this.find("#general-first-name"));
 		validateLength($this.find("#general-last-name"));
 		validateLength($this.find("#general-email"));
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	if(!re.test($this.find("#general-email").val()))
+			$this.find("#general-email").addClass("error");
 		validateLength($this.find("#general-password"));
 		validateSelect($this.find("#general-swag-size"));
 		
